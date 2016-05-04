@@ -1,0 +1,6 @@
+# MATLAB Autosaves
+*.m~
+*.asv
+
+# File used for managing the MATLAB path
+matlab_path
