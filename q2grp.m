@@ -24,10 +24,15 @@ function p = q2grp(q, a, f)
     p = zeros(3, size(q, 2));
     for k = 1:size(q, 2)
         if q(1,k) > 0
-            p(:,k) = bsxfun(@rdivide,  f * q(2:4,k), (a + q(1,k)));
+            p(:,k) = bsxfun(@rdivide,  q(2:4,k), (a + q(1,k)));
         else
-            p(:,k) = bsxfun(@rdivide, -f * q(2:4,k), (a - q(1,k)));
+            p(:,k) = bsxfun(@rdivide, -q(2:4,k), (a - q(1,k)));
         end
-    end 
+    end
+    
+    % We can tack on f right at the end if necessary.
+    if f ~= 1
+        p = f * p;
+    end
     
 end % q2grp

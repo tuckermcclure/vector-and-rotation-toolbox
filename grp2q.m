@@ -17,6 +17,9 @@ function q = grp2q(p, a, f)
 % sin(angle/2), and since sin(angle/2) approximately equals angle/2, we can
 % see that angle/2 == 0.005, so angle approximately equals 0.01, which was
 % the small value used to construct the original GRP.
+%
+% The Gibbs vector is given by f = 1 and a = 0. The Modified Rodrigues
+% Parameters are given by f = 1 and a = 1.
 
 % Copyright 2016 An Uncommon Lab
 
@@ -29,12 +32,12 @@ function q = grp2q(p, a, f)
     if nargin < 3, f = 4; end;
 
     q         = zeros(4, size(p, 2));
-    dp2       = sum(p.^2, 1);
-    q(1, :)   =    (-a * dp2 + f * sqrt(f^2 + (1-a^2) * dp2)) ...
-                ./ (f^2 + dp2);
-	temp      = (a + q(1, :))/f;
+    temp      = sum(p.^2, 1);
+    q(1, :)   =    (-a * temp + f * sqrt(f^2 + (1-a^2) * temp)) ...
+                ./ (f^2 + temp);
+	temp      = (a + q(1, :)) / f;
 	q(2, :)   = temp .* p(1, :);
 	q(3, :)   = temp .* p(2, :);
 	q(4, :)   = temp .* p(3, :);
     
-end
+end % grp2q
