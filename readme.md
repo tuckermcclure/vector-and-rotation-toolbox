@@ -68,6 +68,7 @@ Symbols
 
     ea      Euler angles
     seq     Euler angle rotation sequence, specified as [3 1 2] or 'zxy'
+    g       Gibbs vector
     p       Generalized Rodrigues parameters
     a       Generalized Rodrigues parameters denominator offset (default 1)
     f       Generalized Rodrigues parameters scaling factor (default 4)
@@ -77,6 +78,14 @@ Symbols
     R       Direction cosine matrix
     r       Axis of rotation
     theta   Angle of rotation
+
+
+Resources
+---------
+
+Shuster, Malcolm D. "A Survey of Attitude Representations." _The Journal of Astronautical Sciences. Vol. 41. No. 4. October-December 1993. 439-517. http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf
+
+??? http://dnc.tamu.edu/drjunkins/yearwise/1996/Archival/JAS_44_1_1996_stereographic.pdf
 
 
 Copyright 2016 An Uncommon Lab.

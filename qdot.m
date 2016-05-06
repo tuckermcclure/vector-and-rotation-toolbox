@@ -25,14 +25,14 @@ function qd = qdot(q, w, k)
     if nargin < 3, k = 0.5; end;
 
     % Propagate.
-    qd = 0.5 * [0, -w.'; w, -skew(w)] * q;
+    qd = 0.5 * [0, -w.'; w, -crs3(w)] * q;
         
     % Preserve unit norm in simulation.
     qd = qd + k * (1 - sum(q.^2)) * q;
 
     % Alternately (for reference only):
     % 
-    %   qd = 0.5 * [skew(q(1:3)) + q(0)*eye(3); -q(1:3).'] * w;
+    %   qd = 0.5 * [crs3(q(1:3)) + q(0)*eye(3); -q(1:3).'] * w;
     % 
     
 end

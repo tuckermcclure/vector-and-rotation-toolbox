@@ -1,4 +1,4 @@
-function [ax, angle] = dcm2aa(a)
+function [theta, r] = dcm2aa(a)
 
 % [ax, an] = dcm2aa(a)
 %
@@ -12,13 +12,13 @@ function [ax, angle] = dcm2aa(a)
 %#eml
 %#codegen
 
-    angle = acos(0.5*(trace(a) - 1));
-    if angle < eps
-        ax = [0; 0; 0];
+    theta = acos(0.5*(trace(a) - 1));
+    if theta < eps
+        r = [0; 0; 0];
     else
-        ax = normalize([a(2, 3) - a(3, 2); ...
-                        a(3, 1) - a(1, 3); ...
-                        a(1, 2) - a(2, 1)]);
+        r = normalize([a(2, 3) - a(3, 2); ...
+                       a(3, 1) - a(1, 3); ...
+                       a(1, 2) - a(2, 1)]);
     end
 
 end % dcm2aa

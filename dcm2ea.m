@@ -1,4 +1,6 @@
-function ea = dcm2eq(R, seq)
+function ea = dcm2ea(R, seq)
+
+    if nargin < 2 || isempty(seq), seq = [3 2 1]; end;
 
     % If symmetric...
     if seq(1) == seq(3)
