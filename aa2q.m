@@ -1,4 +1,4 @@
-function q = aa2q(a, theta)
+function q = aa2q(r, theta)
 
 % aa2q
 %
@@ -24,9 +24,9 @@ function q = aa2q(a, theta)
     % This is pleasantly both vectorized for speed in MATLAB *and* good C
     % code generation.
     s = sin(0.5 * theta);
-    q = [cos(0.5 * theta); ...
-         s .* a(1,:); ...
-         s .* a(2,:); ...
-         s .* a(3,:)];
+    q = [s .* r(1,:); ...
+         s .* r(2,:); ...
+         s .* r(3,:); ...
+         cos(0.5 * theta)];
 
 end % aa2q

@@ -29,13 +29,13 @@ function q = grp2q(p, a, f)
     if nargin < 2, a = 1; end;
     if nargin < 3, f = 4; end;
 
-    q         = zeros(4, size(p, 2));
+    q         = zeros(4, size(p, 2), class(p));
     temp      = p(1,:).*p(1,:) + p(2,:).*p(2,:) + p(3,:).*p(3,:);
-    q(1,:)   =    (-a * temp + f * sqrt(f*f + (1-a*a) * temp)) ...
+    q(4,:)   =    (-a * temp + f * sqrt(f*f + (1-a*a) * temp)) ...
                 ./ (f*f + temp);
-	temp      = (a + q(1,:)) * (1/f);
-	q(2,:)   = temp .* p(1,:);
-	q(3,:)   = temp .* p(2,:);
-	q(4,:)   = temp .* p(3,:);
+	temp      = (a + q(4,:)) * (1/f);
+	q(1,:)   = temp .* p(1,:);
+	q(2,:)   = temp .* p(2,:);
+	q(3,:)   = temp .* p(3,:);
     
 end % grp2q

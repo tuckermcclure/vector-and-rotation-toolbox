@@ -45,14 +45,14 @@ function [theta, r] = q2aa(q)
     if isempty(coder.target)
 
         % Find the positive half angle.
-        ind     = q(1,:) < 0;
-        ht      = q(1,:);
+        ind     = q(4,:) < 0;
+        ht      = q(4,:);
         ht(ind) = -ht(ind);
         ht      = acos(min(ht, 1));
 
         % Reverse the axes when the sign of the scalar component was
         % negative. (We've already taken care of the angle.)
-        r = q(2:4,:);
+        r = q(1:3,:);
         r(:,ind) = -r(:,ind);
 
         % If we also need the axis...
@@ -89,8 +89,8 @@ function [theta, r] = q2aa(q)
             
             r     = zeros(3, n, class(q));
             for k = 1:n
-                ht     = q(1,k);
-                r(:,k) = q(2:4,k);
+                ht     = q(4,k);
+                r(:,k) = q(1:3,k);
                 if ht < 0
                     ht = -ht;
                     r(:,k) = -r(:,k);
@@ -112,10 +112,10 @@ function [theta, r] = q2aa(q)
         else
             
             for k = 1:n
-                if q(1,k) < 0
-                    ht = -q(1,k);
+                if q(4,k) < 0
+                    ht = -q(4,k);
                 else
-                    ht = q(1,k);
+                    ht = q(4,k);
                 end
                 if ht > 1
                     ht = 1;

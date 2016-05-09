@@ -23,11 +23,11 @@ Quaternions (Euler-Rodrigues Symmetric Parameters)
 
 When most people speak of quaternions as rotations, they're really referring to Euler-Rodrigues symmetric parameters (ERSP). These can be conveniently represented as unit quaternions, and a subset of quaternion arithmetic lines up well with operations on these ERSPs. However, there's one caveat: Hamilton's original notion of quaternion multiplication results in operations that are backwards from modern conventions regarding rotations. This becomes cumbersome when dealing with rotations. In order to be consistent with modern sources and to distinguish the "quaternions" used in this toolbox from Hamilton's more general form, this toolbox makes the following distinctions:
 
-First, "quaterions" are also referred to in this toolbox as "Euler-Rodrigues symmetric parameters", and the quaternion is simply the storage mechanism.
+First, "quaterions" are also referred to in this toolbox as "Euler-Rodrigues symmetric parameters", which is a more specific name.
 
-Second, instead of "quaternion multiplication", which is backwards to conventions, this toolbox implements "quaternion composition" (qcom) in a manner consistent with rotation conventions. This helps distinguish the operation from Hamilton's quaternion multiplication.
+Second, instead of "quaternion multiplication", which is backwards to conventions, this toolbox implements "quaternion composition" (qcomp) in a manner consistent with rotation conventions. Calling it "composition" acts as a red flag, to indicate that some is different from Hamilton's quaternion multiplication.
 
-Third, the scalar part of the quaternion is stored as the fourth element of the vector. In this way, q(1:3) lines up with the vector part [q_1 q_2 q_3]^T and q(4) is the scalar.
+Third, the scalar part of the quaternion is stored as the fourth element of the vector. In this way, q(1:3) lines up with the vector part [q_1 q_2 q_3]^T and q(4) is the scalar. This is especially useful in a 1-indexed language such as MATLAB, because the indices line up with vector axes.
 
 The function to invert a rotation quaternion lines up with Hamilton's quaternion conjugate, but the name "qinv" is used for clarity of intention.
 
@@ -42,6 +42,13 @@ Operations on quaternions (ERSPs):
     qpos     Return the "positive" form of the quaternion
     qrot     Rotate a vector using a quaternion
 
+
+Differences from the Aerospace Toolbox from The MathWorks:
+
+1. The scalar is the fourth element, whereas it is the first in that toolbox.
+2. Quaternion "composition" is backwards from quaternion multiplication in that toolbox.
+3. qinv should be used instead of qcomp.
+4. Additional, the functions in this toolbox are both better vectorized for use in MATLAB and better in C code generation.
 
 Euler Angles
 ------------

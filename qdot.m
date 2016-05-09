@@ -1,11 +1,13 @@
-function qd = qdot(q, w, k)
+function qd = qdot(q, w, k, dt)
 
 % qdot
 %
 % Quaternion derivative which maintains the unit norm of the quaternion
 % during simulation using the "trick" from [Zipfel 372].
 %
+%    qd = qdot(q, w)
 %    qd = qdot(q, w, k)
+%    qd = qdot(q, w, [], dt)
 %
 % To maintain the unit norm of the quaternion, k*dt should be less than 1,
 % where k is the orthonormality correction factor. The default value is 
@@ -17,22 +19,35 @@ function qd = qdot(q, w, k)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
     % Set default orthonormality correction factor.
     if nargin < 3, k = 0.5; end;
-
-    % Propagate.
-    qd = 0.5 * [0, -w.'; w, -crs3(w)] * q;
+    if nargin == 4 && isempty(k), k = 0.5/dt; end;
         
+    % Propagate.
+    % qd = 0.5 * [-crs3(w), w; -w.', 0] * q;
+    qd      = zeros(4, size(q, 2), class(q));
+    qd(1,:) =                   w(3,:).*q(2,:) - w(2,:).*q(2,:) + w(1,:).*q(4,:);
+    qd(2,:) = -w(3,:).*q(1,:)                  + w(1,:).*q(3,:) + w(2,:).*q(4,:);
+    qd(3,:) =  w(2,:).*q(1,:) - w(1,:).*q(2,:)                  + w(3,:).*q(4,:);
+    qd(4,:) = -w(1,:).*q(1,:) - w(2,:).*q(2,:) - w(3,:).*q(3,:);
+    qd      = 0.5 * qd;
+
     % Preserve unit norm in simulation.
-    qd = qd + k * (1 - sum(q.^2)) * q;
+    % qd = qd + k * (1 - sum(q.^2)) * q;
+    if k ~= 0
+        s = q(1,:).*q(1,:) + q(2,:).*q(2,:) + q(3,:).*q(3,:) + q(4,:).*q(4,:);
+        s = k * (1 - s);
+        qd(1,:) = qd(1,:) + s .* q(1,:);
+        qd(2,:) = qd(2,:) + s .* q(2,:);
+        qd(3,:) = qd(3,:) + s .* q(3,:);
+        qd(4,:) = qd(4,:) + s .* q(4,:);
+    end
 
     % Alternately (for reference only):
     % 
-    %   qd = 0.5 * [crs3(q(1:3)) + q(0)*eye(3); -q(1:3).'] * w;
+    %   qd = 0.5 * [crs3(q(1:3)) + q(4)*eye(3); -q(1:3).'] * w;
     % 
     
-end
+end % qdot

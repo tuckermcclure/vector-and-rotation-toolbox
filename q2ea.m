@@ -33,7 +33,7 @@ function ea = q2ea(q, seq)
         end
         
         ea(2,:) = acos(  q(i,:).*q(i,:) - q(j,:).*q(j,:) ...
-                       - q(k,:).*q(k,:) + q(1,:).*q(1,:));
+                       - q(k,:).*q(k,:) + q(4,:).*q(4,:));
                  
         for z = 1:n
             if sin(ea(2,z)) ~= 0

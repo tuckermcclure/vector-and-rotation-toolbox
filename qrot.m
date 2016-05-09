@@ -1,28 +1,40 @@
 function v = qrot(q, v)
 
-% Rotate a vector in frame B, v_B, to frame A given the quaternion
-% representing A wrt B, q_AB.
+% Rotate a vector in frame A, v_A, to frame B given the quaternion
+% representing B wrt A, q_BA.
 %
-% v_A = qmult(qconj(q_AB), qmult([0; v_B], q_AB))
+%   v_B = qrot(q_BA, v_A);
+%
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
-    for k = 1:size(q, 2)
-        vcq = cross3(v(:,k), q(2:4,k));
-        v(:,k) =   q(1,k) * q(1,k) * v(:,k) ...
-                 + (2 * q(1,k)) * vcq ...
-                 + sum(v(:,k) .* q(2:4,k)) * q(2:4,k) ...
-                 - cross3(q(2:4,:), vcq);
+    % Faster in MATLAB:
+    if isempty(coder.target)
+
+        % v_B = qcomp(qcomp(q_BA, [v_B; 0]), qinv(q_BA));
+        c = [ q(4,:).*v(1,:) + q(3,:).*v(2,:) - q(2,:).*v(3,:); ...
+             -q(3,:).*v(1,:) + q(4,:).*v(2,:) + q(1,:).*v(3,:); ...
+              q(2,:).*v(1,:) - q(1,:).*v(2,:) + q(4,:).*v(3,:); ...
+             -q(1,:).*v(1,:) - q(2,:).*v(2,:) - q(3,:).*v(3,:)];
+        v = [-c(4,:).*q(1,:) - c(3,:).*q(2,:) + c(2,:).*q(3,:) + c(1,:).*q(4,:); ...
+              c(3,:).*q(1,:) - c(4,:).*q(2,:) - c(1,:).*q(3,:) + c(2,:).*q(4,:); ...
+             -c(2,:).*q(1,:) + c(1,:).*q(2,:) - c(4,:).*q(3,:) + c(3,:).*q(4,:)];
+         
+    % Better for codegen:
+    else
+        
+        for k = 1:size(q, 2)
+            c = [ q(4,k).*v(1,k) + q(3,k).*v(2,k) - q(2,k).*v(3,k); ...
+                 -q(3,k).*v(1,k) + q(4,k).*v(2,k) + q(1,k).*v(3,k); ...
+                  q(2,k).*v(1,k) - q(1,k).*v(2,k) + q(4,k).*v(3,k); ...
+                 -q(1,k).*v(1,k) - q(2,k).*v(2,k) - q(3,k).*v(3,k)];
+            v(:,k) = [-c(4,k).*q(1,k) - c(3,k).*q(2,k) + c(2,k).*q(3,k) + c(1,k).*q(4,k); ...
+                       c(3,k).*q(1,k) - c(4,k).*q(2,k) - c(1,k).*q(3,k) + c(2,k).*q(4,k); ...
+                      -c(2,k).*q(1,k) + c(1,k).*q(2,k) - c(4,k).*q(3,k) + c(3,k).*q(4,k)];
+        end
+        
     end
-
-    % vcq = cross3(v, q(2:4,:));
-    % v =   bsxfun(@times, q(1,:).^2, v) ...
-    %     + bsxfun(@times, (2 * q(1,:)), vcq) ...
-    %     + bsxfun(@times, sum(v .* q(2:4,:)), q(2:4,:)) ...
-    %     - cross3(q(2:4,:), vcq);
-
+    
 end % qrot
