@@ -1,5 +1,9 @@
 function p = grpcomp(p2, p1, a, f)
 
+% Copyright 2016 An Uncommon Lab
+
+%#codegen
+
     if nargin < 3 || isempty(a), a = 1; end;
     if nargin < 4 || isempty(f), f = 4; end;
 
@@ -15,7 +19,8 @@ function p = grpcomp(p2, p1, a, f)
         p =   (1 - p1m2) * p2 ...
             + (1 - p2m2) * p1 ...
             - 2 * cross3(p2, p1);
-        p = (1/(1 + p1m2 .* p2m2 - 2 * p2.' * p1)) * p;
+        p = (1./(1 + p1m2 .* p2m2 - 2 * p2.' * p1)) * p;
+        
         % TODO: Not vectorized.
         
     % Otherwise, use quaternions.

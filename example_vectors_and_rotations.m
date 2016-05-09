@@ -19,7 +19,7 @@ theta = pi/4;
 
 r_A  = [1; 0; 0];               % a vector in the A frame
 R_BA = aa2dcm(r, theta)         % rotation matrix of B wrt A
-r_B  = aa2dcm(r, theta) * r_A   % the vector, as seen in B
+r_B  = R_BA * r_A               % the vector, as seen in B
 
 %%
 % That looks right. Of course, rotations about x, y, or z are common, so

@@ -23,8 +23,6 @@ function q = grp2q(p, a, f)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
     % Set some defaults.
@@ -32,12 +30,12 @@ function q = grp2q(p, a, f)
     if nargin < 3, f = 4; end;
 
     q         = zeros(4, size(p, 2));
-    temp      = sum(p.^2, 1);
-    q(1, :)   =    (-a * temp + f * sqrt(f^2 + (1-a^2) * temp)) ...
-                ./ (f^2 + temp);
-	temp      = (a + q(1, :)) / f;
-	q(2, :)   = temp .* p(1, :);
-	q(3, :)   = temp .* p(2, :);
-	q(4, :)   = temp .* p(3, :);
+    temp      = p(1,:).*p(1,:) + p(2,:).*p(2,:) + p(3,:).*p(3,:);
+    q(1,:)   =    (-a * temp + f * sqrt(f*f + (1-a*a) * temp)) ...
+                ./ (f*f + temp);
+	temp      = (a + q(1,:)) * (1/f);
+	q(2,:)   = temp .* p(1,:);
+	q(3,:)   = temp .* p(2,:);
+	q(4,:)   = temp .* p(3,:);
     
 end % grp2q

@@ -23,14 +23,12 @@ function m = crs3(v)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
     % m = [ 0    -v(3)  v(2); ...
     %       v(3)  0    -v(1); ...
     %      -v(2)  v(1)  0];
-    m = zeros(3, 3, size(v, 2));
+    m = zeros(3, 3, size(v, 2), class(v));
     m(1,2,:) = -v(3,:);
     m(1,3,:) =  v(2,:);
     m(2,1,:) =  v(3,:);

@@ -1,7 +1,10 @@
 function qi = qinterp(varargin)
 
-% qi = qinterp(qa, qb, f);
 % qi = qinterp(t, q, ti);
+
+% Copyright 2016 An Uncommon Lab
+
+%#codegen
 
     % qi = qinterp(t, q, ti); 
     % TODO: Make a better test for this or make qinterpf its own thing.
@@ -33,9 +36,3 @@ function qi = qinterp(varargin)
     end
 
 end % qinterp
-
-% Interpolate from qa to qb according to fraction f.
-function qi = qinterpf(qa, qb, f)
-    [theta, r] = q2aa(qcomp(qb, qinv(qa)));
-    qi = qcomp(aa2q(r, f * theta), qa);
-end % qinterpf

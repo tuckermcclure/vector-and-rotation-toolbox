@@ -19,14 +19,14 @@ function q = aa2q(a, theta)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
-    sht = sin(0.5 * theta);
+    % This is pleasantly both vectorized for speed in MATLAB *and* good C
+    % code generation.
+    s = sin(0.5 * theta);
     q = [cos(0.5 * theta); ...
-         sht .* a(1, :); ...
-         sht .* a(2, :); ...
-         sht .* a(3, :)];
+         s .* a(1,:); ...
+         s .* a(2,:); ...
+         s .* a(3,:)];
 
 end % aa2q

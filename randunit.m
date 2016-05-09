@@ -23,6 +23,7 @@ function v_hat = randunit(m, n)
     if nargin < 1, m = 3; end;
     if nargin < 2, n = 1; end;
 
-    v_hat = normalize(randn(m, n));
+    v_hat = randn(m, n);
+    v_hat = normalize(v_hat);
 
 end % randunit

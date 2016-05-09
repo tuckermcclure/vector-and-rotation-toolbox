@@ -8,31 +8,41 @@ function p = q2grp(q, a, f)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
     % Set some defaults.
     if nargin < 2, a = 1; end;
     if nargin < 3, f = 4; end;
 
-    % p = f * q(2:4) / (a + q(1)); % Individual quaternion.
+    % p = f * q(2:4) / (a + q(1));  % individual quaternion, q(1) > 0
+    % p = -f * q(2:4) / (a - q(1)); % if q(1) < 0
+
+    % Pre-allocate.
+    n = size(q, 2);
+    p = zeros(3, n, class(q));
     
-    % We don't want to divide by zero, so take the convention that q0 > 0.
-    % First, divide normally where this is true. Then, flip the sign on all
-    % q where this isn't true.
-    p = zeros(3, size(q, 2));
-    for k = 1:size(q, 2)
-        if q(1,k) > 0
-            p(:,k) = bsxfun(@rdivide,  q(2:4,k), (a + q(1,k)));
-        else
-            p(:,k) = bsxfun(@rdivide, -q(2:4,k), (a - q(1,k)));
+    % In MATLAB? Vectorize.
+    if isempty(coder.target)
+
+        pos     = q(4,:) > 0;
+        s       = zeros(1, n, class(q));
+        s(pos)  = f ./ (a + q(4,pos));
+        s(~pos) = f ./ (a - q(4,~pos));
+        p(pos)  = q(1:3,pos);
+        p(~pos) = -q(1:3,~pos);
+        p       = bsxfun(@times, s, p);
+        
+    % In code? Loop.
+    else
+ 
+        for k = 1:n
+            if q(1,k) > 0
+                p(:,k) =  f / (a + q(4,k)) * q(1:3,k);
+            else
+                p(:,k) = -f / (a - q(4,k)) * q(1:3,k);
+            end
         end
-    end
-    
-    % We can tack on f right at the end if necessary.
-    if f ~= 1
-        p = f * p;
+        
     end
     
 end % q2grp

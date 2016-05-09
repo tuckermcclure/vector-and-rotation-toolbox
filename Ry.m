@@ -42,7 +42,7 @@ function R = Ry(theta)
     % R = [ c  0 -s; ...
     %       0  1  0; ...
     %       s  0  c];
-	R = zeros(3, 3, size(theta, 2));
+	R = zeros(3, 3, length(theta), class(theta));
     R(2,2,:) = 1;
     R(1,1,:) = cos(theta);
     R(3,3,:) = R(1,1,:);

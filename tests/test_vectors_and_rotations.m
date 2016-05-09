@@ -5,6 +5,6 @@
 % +/- p
 % extremes of each
 % randomly in the ranges
-% coder and regular
+% coder and regular (via MEX)
 % vectorization
 % EA sequences

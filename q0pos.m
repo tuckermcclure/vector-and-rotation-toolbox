@@ -19,18 +19,20 @@ function q = q0pos(q)
 %#codegen
 
     % If running in MATLAB, use vectorized operation.
-    if strcmp(coder.target, '')
+    if isempty(coder.target)
         
         neg = q(1,:) < 0;
         q(:,neg) = -q(:,neg);
         
     % Otherwise, use a loop.
     else
+        
         for k = 1:size(q, 2)
             if q(1,k) < 0
                 q(:,k) = -q(:,k);
             end
         end
+        
     end
     
 end % q0pos

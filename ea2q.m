@@ -1,55 +1,63 @@
 function q = ea2q(ea, seq)
 
-    % If it's the 3-2-1 sequence (standard aerospace heading, elevation,
-    % bank or yaw, pitch, roll), then use compact form.
-    if nargin < 2 || isempty(seq) || all(seq == [3 2 1])
-        
-        c1 = cos(0.5*ea(1,:));
-        c2 = cos(0.5*ea(2,:));
-        c3 = cos(0.5*ea(3,:));
-        s1 = sin(0.5*ea(1,:));
-        s2 = sin(0.5*ea(2,:));
-        s3 = sin(0.5*ea(3,:));
-        q = [c1.*c2.*c3 + s1.*s2.*s3; ...
-             c1.*c2.*s3 - s1.*s2.*c3; ...
-             c1.*s2.*c3 + s1.*c2.*s3; ...
-             s1.*c2.*c3 - c1.*s2.*s3];
-        
-    % Otherwise, for other sequences, use Rx, Ry, and Rz.
-    else
+% ea2q
 
-        % Set the initial quaternion.
-        n = size(ea, 2);
-        q = zeros(4, n);
-        q(1,:) = cos(0.5*ea(1,:));
-        switch seq(1)
-            case {1, 'x'}
-                q(2,:) = sin(0.5*ea(1,:));
-            case {2, 'y'}
-                q(3,:) = sin(0.5*ea(1,:));
-            case {3, 'z'}
-                q(4,:) = sin(0.5*ea(1,:));
-            otherwise
-                error('Invalid sequence identifier.');
+% Copyright 2016 An Uncommon Lab
+
+%#codegen
+
+    % Determine signs.
+    i = seq(1);
+    j = seq(2);
+    if    (i == 1 && j == 2) ...
+       || (i == 2 && j == 3) ...
+       || (i == 3 && j == 1)
+        alpha = 1;
+    else
+        alpha = -1;
+    end
+    
+    % Pre-allocate.
+    n = size(ea, 2);
+    q = zeros(4, n, class(ea));
+    
+    % If symmetric...
+    if seq(1) == seq(3)
+       
+        % Determine the other axis.
+        if (i == 1 && j == 2) || (i == 2 && j == 1)
+            k = 3;
+        elseif (i == 1 && j == 3) || (i == 3 && j == 1)
+            k = 2;
+        else
+            k = 1;
         end
         
-        % Perform the subsequent two rotations
-        for k = 1:2
-            qk = zeros(4, n);
-            qk(1,:) = cos(0.5*ea(k,:));
-            switch seq(k)
-                case {1, 'x'}
-                    qk(2,:) = sin(0.5*ea(k,:));
-                case {2, 'y'}
-                    qk(3,:) = sin(0.5*ea(k,:));
-                case {3, 'z'}
-                    qk(4,:) = sin(0.5*ea(k,:));
-                otherwise
-                    error('Invalid sequence identifier.');
-            end
-            q = qcomp(qk, q);
-        end
+        a = cos(ea(2,:));
+        q(i,:) =         a .* sin(ea(1,:) + ea(3,:));
+        q(4,:) =         a .* cos(ea(1,:) + ea(3,:));
+        a = sin(ea(2,:));
+        q(j,:) =         a .* cos(ea(1,:) - ea(3,:));
+        q(k,:) = alpha * a .* sin(ea(1,:) - ea(3,:));
+    
+    % Otherwise, must be asymmetric.
+    else
+        
+        k = seq(3);
+            
+        cphi   = cos(ea(1,:));
+        ctheta = cos(ea(2,:));
+        cpsi   = cos(ea(3,:));
+
+        sphi   = sin(ea(1,:));
+        stheta = sin(ea(2,:));
+        spsi   = sin(ea(3,:));
+        
+        q(i,:) = cpsi .* ctheta .* sphi + alpha * spsi .* stheta .* cphi;
+        q(j,:) = cpsi .* stheta .* cphi - alpha * spsi .* ctheta .* sphi;
+        q(k,:) = spsi .* ctheta .* cphi + alpha * cpsi .* stheta .* sphi;
+        q(4,:) = cpsi .* ctheta .* cphi - alpha * spsi .* stheta .* cphi;
         
     end
-
+    
 end % ea2q

@@ -1,4 +1,4 @@
-function q = dcm2q(M)
+function q = dcm2q(R)
 
 % dcm2q
 %
@@ -11,38 +11,45 @@ function q = dcm2q(M)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
-    % Split the conversion so as to divide by the largest possible number.
-    q = zeros(4, 1);
-    if M(1,1) + M(2,2) + M(3,3) >= 0
-        q(1)  = 0.5 * sqrt(1 + M(1,1) + M(2,2) + M(3,3));
-        alpha = 0.25/q(1);
-        q(2)  = alpha * (M(2,3) - M(3,2));
-        q(3)  = alpha * (M(3,1) - M(1,3));
-        q(4)  = alpha * (M(1,2) - M(2,1));
-    elseif M(1,1) - M(2,2) - M(3,3) >= 0
-        q(2) = 0.5 * sqrt(1 + M(1,1) - M(2,2) - M(3,3));
-        alpha = 0.25/q(2);
-        q(3)  = alpha * (M(1,2) + M(2,1));
-        q(4)  = alpha * (M(3,1) + M(1,3));
-        q(1)  = alpha * (M(2,3) - M(3,2));
-    elseif - M(1,1) + M(2,2) - M(3,3) >= 0
-        q(3) = 0.5 * sqrt(1 - M(1,1) + M(2,2) - M(3,3));
-        alpha = 0.25/q(3);
-        q(2)  = alpha * (M(1,2) + M(2,1));
-        q(4)  = alpha * (M(3,2) + M(2,3));
-        q(1)  = alpha * (M(3,1) - M(1,3));
-    elseif - M(1,1) - M(2,2) + M(3,3) >= 0
-        q(4)  = 0.5 * sqrt(1 - M(1,1) - M(2,2) + M(3,3));
-        alpha = 0.25/q(4);
-        q(2)  = alpha * (M(1,3) + M(3,1));
-        q(3)  = alpha * (M(3,2) + M(2,3));
-        q(1)  = alpha * (M(1,2) - M(2,1));
-    else
-        error('Invalid direction cosine matrix.');
-    end
+    % Dims
+    n = size(R, 3);
+    assert(size(R, 1) == 3 && size(R, 2) == 3, ...
+           '%s: The axes must be 3-by-n.', mfilename);
 
+    % Pre-allocate.
+    q = zeros(4, n, class(R));
+    
+    % Split the conversion so as to divide by the largest possible number.
+    for k = 1:n
+        if R(1,1,k) + R(2,2,k) + R(3,3,k) >= 0
+            q(1,k)  = 0.5 * sqrt(1 + R(1,1,k) + R(2,2,k) + R(3,3,k));
+            alpha = 0.25/q(1,k);
+            q(2,k)  = alpha * (R(2,3,k) - R(3,2,k));
+            q(3,k)  = alpha * (R(3,1,k) - R(1,3,k));
+            q(4,k)  = alpha * (R(1,2,k) - R(2,1,k));
+        elseif R(1,1,k) - R(2,2,k) - R(3,3,k) >= 0
+            q(2,k) = 0.5 * sqrt(1 + R(1,1,k) - R(2,2,k) - R(3,3,k));
+            alpha = 0.25/q(2,k);
+            q(3,k)  = alpha * (R(1,2,k) + R(2,1,k));
+            q(4,k)  = alpha * (R(3,1,k) + R(1,3,k));
+            q(1,k)  = alpha * (R(2,3,k) - R(3,2,k));
+        elseif - R(1,1,k) + R(2,2,k) - R(3,3,k) >= 0
+            q(3,k) = 0.5 * sqrt(1 - R(1,1,k) + R(2,2,k) - R(3,3,k));
+            alpha = 0.25/q(3,k);
+            q(2,k)  = alpha * (R(1,2,k) + R(2,1,k));
+            q(4,k)  = alpha * (R(3,2,k) + R(2,3,k));
+            q(1,k)  = alpha * (R(3,1,k) - R(1,3,k));
+        elseif - R(1,1,k) - R(2,2,k) + R(3,3,k) >= 0
+            q(4,k)  = 0.5 * sqrt(1 - R(1,1,k) - R(2,2,k) + R(3,3,k));
+            alpha = 0.25/q(4,k);
+            q(2,k)  = alpha * (R(1,3,k) + R(3,1,k));
+            q(3,k)  = alpha * (R(3,2,k) + R(2,3,k));
+            q(1,k)  = alpha * (R(1,2,k) - R(2,1,k));
+        else
+            error('%s: Invalid direction cosine matrix.', mfilename);
+        end
+    end
+    
 end % dcm2q

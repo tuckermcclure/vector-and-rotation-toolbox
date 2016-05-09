@@ -10,8 +10,6 @@ function c = cross3(a, b)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
     c = [a(2,:) .* b(3,:) - a(3,:) .* b(2,:); ...
