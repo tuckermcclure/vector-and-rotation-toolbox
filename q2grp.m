@@ -24,13 +24,13 @@ function p = q2grp(q, a, f)
     % In MATLAB? Vectorize.
     if isempty(coder.target)
 
-        pos     = q(4,:) > 0;
-        s       = zeros(1, n, class(q));
-        s(pos)  = f ./ (a + q(4,pos));
-        s(~pos) = f ./ (a - q(4,~pos));
-        p(pos)  = q(1:3,pos);
-        p(~pos) = -q(1:3,~pos);
-        p       = bsxfun(@times, s, p);
+        pos       = q(4,:) > 0;
+        s         = zeros(1, n, class(q));
+        s(pos)    = f ./ (a + q(4,pos));
+        s(~pos)   = f ./ (a - q(4,~pos));
+        p(:,pos)  = q(1:3,pos);
+        p(:,~pos) = -q(1:3,~pos);
+        p         = bsxfun(@times, s, p);
         
     % In code? Loop.
     else

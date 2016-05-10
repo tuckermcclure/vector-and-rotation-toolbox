@@ -21,12 +21,26 @@ function [theta, r] = dcm2aa(R)
     theta(:) = acos(0.5*(theta - 1));
     
     % Axes of rotation
-    if nargin >= 2
-        r        = zeros(3, n, class(R));
-        r(1,:)   = R(2,3,:) - R(3,2,:);
-        r(2,:)   = R(3,1,:) - R(1,3,:);
-        r(3,:)   = R(1,2,:) - R(2,1,:);
-        r        = normalize(r);
+    if nargout >= 2
+        % TODO: Vectorize
+        if theta == 0
+            r = [1; 0; 0];
+        elseif theta == pi
+            if R(1,1) > R(2,2) && R(1,1) > R(3,3)
+                r = [R(1,1) + 1; R(2,1); R(3,1)];
+            elseif R(2,2) > R(3,3)
+                r = [R(1,2); R(2,2) + 1; R(3,2)];
+            else
+                r = [R(1,3); R(2,3); R(3,3) + 1];
+            end
+            r = normalize(r);
+        else
+            r        = zeros(3, n, class(R));
+            r(1,:)   = R(2,3,:) - R(3,2,:);
+            r(2,:)   = R(3,1,:) - R(1,3,:);
+            r(3,:)   = R(1,2,:) - R(2,1,:);
+            r        = normalize(r);
+        end
     end
 
 end % dcm2aa

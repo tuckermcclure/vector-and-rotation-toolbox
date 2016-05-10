@@ -5,6 +5,8 @@ function ea = q2ea(q, seq)
 
 %#codegen
 
+    if nargin < 2, seq = [3 2 1]; end;
+
     % Determine signs.
     i = seq(1);
     j = seq(2);

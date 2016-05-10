@@ -17,7 +17,9 @@ function [v, v_mag] = normalize(v)
         valid = v_mag > 0;
         v(1,   ~valid) = 1;
         v(2:3, ~valid) = 0;
-        v(:,    valid) = bsxfun(@times, v(:,valid), 1./v_mag(valid));
+        if any(valid)
+            v(:, valid) = bsxfun(@times, v(:,valid), 1./v_mag(valid));
+        end
         
     % Otherwise, when running in some type of embedded code, use efficient
     % (non-vectorized) code.

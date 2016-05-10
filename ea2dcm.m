@@ -60,10 +60,10 @@ function R = ea2dcm(ea, seq)
             R(i,k,:) = -alpha * stheta .* cphi;
             
             R(j,i,:) = spsi .* stheta;
-            R(j,j,:) = spsi .* sphi - spsi .* ctheta .* sphi;
-            R(j,k,:) = alpha * (spsi .* sphi + spsi .* ctheta .* cphi);
+            R(j,j,:) = cpsi .* cphi - spsi .* ctheta .* sphi;
+            R(j,k,:) = alpha * (cpsi .* sphi + spsi .* ctheta .* cphi);
             
-            R(k,i,:) = alpha * spsi .* stheta;
+            R(k,i,:) = alpha * cpsi .* stheta;
             R(k,j,:) = -alpha * (spsi .* cphi + cpsi .* ctheta .* sphi);
             R(k,k,:) = -spsi .* sphi + cpsi .* ctheta .* cphi;
             
@@ -119,7 +119,7 @@ function R = ea2dcm(ea, seq)
             
             R(j,i,:) = -alpha * spsi .* ctheta;
             R(j,j,:) = cpsi .* cphi - alpha * spsi .* stheta .* sphi;
-            R(j,k,:) = alpha .* spsi .* sphi + spsi .* stheta .* cphi;
+            R(j,k,:) = alpha .* cpsi .* sphi + spsi .* stheta .* cphi;
             
             R(k,i,:) = alpha * stheta;
             R(k,j,:) = -alpha * ctheta .* sphi;

@@ -6,6 +6,8 @@ function q = ea2q(ea, seq)
 
 %#codegen
 
+    if nargin < 2, seq = [3 2 1]; end;
+
     % Determine signs.
     i = seq(1);
     j = seq(2);
@@ -33,30 +35,30 @@ function q = ea2q(ea, seq)
             k = 1;
         end
         
-        a = cos(ea(2,:));
-        q(i,:) =         a .* sin(ea(1,:) + ea(3,:));
-        q(4,:) =         a .* cos(ea(1,:) + ea(3,:));
-        a = sin(ea(2,:));
-        q(j,:) =         a .* cos(ea(1,:) - ea(3,:));
-        q(k,:) = alpha * a .* sin(ea(1,:) - ea(3,:));
+        a = cos(0.5*ea(2,:));
+        q(i,:) =         a .* sin(0.5*(ea(1,:) + ea(3,:)));
+        q(4,:) =         a .* cos(0.5*(ea(1,:) + ea(3,:)));
+        a = sin(0.5*ea(2,:));
+        q(j,:) =         a .* cos(0.5*(ea(1,:) - ea(3,:)));
+        q(k,:) = alpha * a .* sin(0.5*(ea(1,:) - ea(3,:)));
     
     % Otherwise, must be asymmetric.
     else
         
         k = seq(3);
             
-        cphi   = cos(ea(1,:));
-        ctheta = cos(ea(2,:));
-        cpsi   = cos(ea(3,:));
+        cphi   = cos(0.5*ea(1,:));
+        ctheta = cos(0.5*ea(2,:));
+        cpsi   = cos(0.5*ea(3,:));
 
-        sphi   = sin(ea(1,:));
-        stheta = sin(ea(2,:));
-        spsi   = sin(ea(3,:));
+        sphi   = sin(0.5*ea(1,:));
+        stheta = sin(0.5*ea(2,:));
+        spsi   = sin(0.5*ea(3,:));
         
         q(i,:) = cpsi .* ctheta .* sphi + alpha * spsi .* stheta .* cphi;
         q(j,:) = cpsi .* stheta .* cphi - alpha * spsi .* ctheta .* sphi;
         q(k,:) = spsi .* ctheta .* cphi + alpha * cpsi .* stheta .* sphi;
-        q(4,:) = cpsi .* ctheta .* cphi - alpha * spsi .* stheta .* cphi;
+        q(4,:) = cpsi .* ctheta .* cphi - alpha * spsi .* stheta .* sphi;
         
     end
     
