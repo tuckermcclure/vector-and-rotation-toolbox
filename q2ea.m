@@ -38,17 +38,15 @@ function ea = q2ea(q, seq)
                        - q(k,:).*q(k,:) + q(4,:).*q(4,:));
                  
         for z = 1:n
-            if sin(ea(2,z)) ~= 0
+            if ea(2,z) == 0
+                ea(1,z) = 2*atan2(q(i,z), q(4,z)); % Shuster misses a 2 here.
+            elseif ea(2,z) == pi
+                ea(1,z) = 2*atan2(alpha * q(k,z), q(j,z));
+            else
                 a1 = atan2(q(i,z), q(4,z));
-                a2 = atan2(alpha * q(i,z), q(j,z));
+                a2 = atan2(alpha * q(k,z), q(j,z));
                 ea(1,z) = a1 + a2;
                 ea(3,z) = a1 - a2;
-            else
-                if ea(2,z) == 0
-                    ea(1,:) = atan2(q(i,z), q(4,z));
-                else
-                    ea(1,:) = atan2(alpha * q(i,z), q(j,z));
-                end
             end
         end
         
@@ -60,10 +58,10 @@ function ea = q2ea(q, seq)
         ea(2,:) = asin(2 * (q(4,:) .* q(j,:) + alpha * q(k,:) .* q(i,:)));
                  
         for z = 1:n
-            if ea(2,k) == pi/2
+            if ea(2,z) == pi/2
                 ea(1,:) = atan2(q(i,z) + alpha * q(k,z), ...
                                 q(4,z) + alpha * q(j,z));
-            elseif ea(2,k) == -pi/2
+            elseif ea(2,z) == -pi/2
                 ea(1,:) = atan2(q(i,z) - alpha * q(k,z), ...
                                 q(4,z) - alpha * q(j,z));
             else

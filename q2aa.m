@@ -62,7 +62,7 @@ function [theta, r] = q2aa(q)
             sht = sin(ht);
 
             % Divide (where possible).
-            ind = sht >= 0; % Definitely >= 0 since ht is positive.
+            ind = sht > 0; % Definitely >= 0 since ht is positive.
             if any(ind)
                 r(:,ind) = bsxfun(@rdivide, r(:,ind), sht(ind));
             end

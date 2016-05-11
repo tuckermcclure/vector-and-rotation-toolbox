@@ -45,7 +45,7 @@ function R = Rz(theta)
 	R = zeros(3, 3, length(theta), class(theta));
     R(3,3,:) = 1;
     R(1,1,:) = cos(theta);
-    R(2,2,:) = R(2,2,:);
+    R(2,2,:) = R(1,1,:);
     R(1,2,:) = sin(theta);
     R(2,1,:) = -R(1,2,:);
       

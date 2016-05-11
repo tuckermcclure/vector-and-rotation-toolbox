@@ -1,34 +1,82 @@
-function p = grpcomp(p2, p1, varargin)
+function p = grpcomp(p2, p1, a, f)
 
 % Copyright 2016 An Uncommon Lab
 
 %#codegen
 
-    if nargin < 3 || isempty(varargin{1}), a = 1; end;
-    if nargin < 4 || isempty(varargin{2}), f = 4; end;
+    if nargin < 3 || isempty(a), a = 1; end;
+    if nargin < 4 || isempty(f), f = 4; end;
 
-    if a == 1
+    n = zeros(3, size(p1, 2), class(p1));
+    
+    % If in MATLAB, vectorize.
+    if isempty(coder.target)
         
-        if f ~= 1
-            p1 = p1./f;
-            p2 = p2./f;
+        if a == 1
+            f2 = f * f;
+            p1m2 = p1(1,:).*p1(1,:) + p1(2,:).*p1(2,:) + p1(3,:).*p1(3,:);
+            p2m2 = p2(1,:).*p2(1,:) + p2(2,:).*p2(2,:) + p2(3,:).*p2(3,:);
+            p =   (f2 - p1m2) * p2 ...
+                + (f2 - p2m2) * p1 ...
+                - 2*f * cross3(p2, p1);
+            d = p1(1,:).*p2(1,:) + p1(2,:).*p2(2,:) + p1(3,:).*p2(3,:);
+            p = (1./(f2 + 1/f2 * p1m2 .* p2m2 - 2 * d)) * p;
+        else
+            q1 = grp2q(p1, a, f);
+            q2 = grp2q(p2, a, f);
+            p  = q2grp(qcomp(q2, q1), a, f);
         end
         
-        p1m2 = p1(1,:).*p1(1,:) + p1(2,:).*p1(2,:) + p1(3,:).*p1(3,:);
-        p2m2 = p2(1,:).*p2(1,:) + p2(2,:).*p2(2,:) + p2(3,:).*p2(3,:);
-        p =   (1 - p1m2) * p2 ...
-            + (1 - p2m2) * p1 ...
-            - 2 * cross3(p2, p1);
-        p = (1./(1 + p1m2 .* p2m2 - 2 * p2.' * p1)) * p;
-        
-        % TODO: Not vectorized.
-        
-    % Otherwise, use quaternions.
+    % Otherwise, make good C.
     else
-        % TODO: Make codegen version.
-        q1 = grp2q(p1, varargin{:});
-        q2 = grp2q(p2, varargin{:});
-        p  = q2grp(qcomp(q2, q1, varargin{:}), varargin{:});
+        
+        p = zeros(3, n);
+        if a == 1
+            for k = 1:n
+                f2 = f * f;
+                p1m2 = p1(1,:).*p1(1,:) + p1(2,:).*p1(2,:) + p1(3,:).*p1(3,:);
+                p2m2 = p2(1,:).*p2(1,:) + p2(2,:).*p2(2,:) + p2(3,:).*p2(3,:);
+                p =   (f2 - p1m2) * p2 ...
+                    + (f2 - p2m2) * p1 ...
+                    - 2*f * cross3(p2, p1);
+                p = (1./(f2 + p1m2 .* p2m2 - 2 * p2.' * p1)) * p;
+            end
+        else
+            for k = 1:n
+                q1 = grp2q(p1(:,k), a, f);
+                q2 = grp2q(p2(:,k), a, f);
+                p(:,k)  = q2grp(qcomp(q2, q1), a, f);
+            end
+        end
+        
     end
+    
+%     if a == 1
+%         
+%         if f ~= 1
+%             p1 = p1./f;
+%             p2 = p2./f;
+%         end
+%         
+%         p1m2 = p1(1,:).*p1(1,:) + p1(2,:).*p1(2,:) + p1(3,:).*p1(3,:);
+%         p2m2 = p2(1,:).*p2(1,:) + p2(2,:).*p2(2,:) + p2(3,:).*p2(3,:);
+%         p =   (1 - p1m2) * p2 ...
+%             + (1 - p2m2) * p1 ...
+%             - 2 * cross3(p2, p1);
+%         p = (1./(1 + p1m2 .* p2m2 - 2 * p2.' * p1)) * p;
+%         
+%         if f ~= 1
+%             p = f * p;
+%         end
+%         
+%         % TODO: Not vectorized.
+%         
+%     % Otherwise, use quaternions.
+%     else
+%         % TODO: Make codegen version.
+%         q1 = grp2q(p1, a, f);
+%         q2 = grp2q(p2, a, f);
+%         p  = q2grp(qcomp(q2, q1, a, f), a, f);
+%     end
 
 end % grpcomp
