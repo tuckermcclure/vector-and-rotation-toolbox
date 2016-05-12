@@ -7,8 +7,8 @@ function R = grp2dcm(p, a, f)
 %#codegen
 
     % Set some defaults.
-    if nargin < 2 || isempty(a), a = 1; end;
-    if nargin < 3 || isempty(f), f = 4; end;
+    if nargin < 2 || isempty(a), a = 1;       end;
+    if nargin < 3 || isempty(f), f = 2*(a+1); end;
 
     % When a == 1, we can go directly to the DCM. Otherwise, it's easier to
     % go through the quaternion.

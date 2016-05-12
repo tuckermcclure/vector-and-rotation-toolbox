@@ -11,8 +11,8 @@ function p = q2grp(q, a, f)
 %#codegen
 
     % Set some defaults.
-    if nargin < 2, a = 1; end;
-    if nargin < 3, f = 4; end;
+    if nargin < 2, a = 1;       end;
+    if nargin < 3, f = 2*(a+1); end;
 
     % p = f * q(2:4) / (a + q(1));  % individual quaternion, q(1) > 0
     % p = -f * q(2:4) / (a - q(1)); % if q(1) < 0

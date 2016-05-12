@@ -7,8 +7,8 @@ function p = aa2grp(r, theta, a, f)
 %#codegen
 
     % Set defaults so that small p correspond to rotation vectors.
-    if nargin < 3 || isempty(a), a = 1; end;
-    if nargin < 4 || isempty(f), f = 4; end;
+    if nargin < 3 || isempty(a), a = 1;       end;
+    if nargin < 4 || isempty(f), f = 2*(a+1); end;
 
     % Check dimensions.
     assert(nargin >= 2, ...

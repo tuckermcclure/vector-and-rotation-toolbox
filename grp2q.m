@@ -26,8 +26,8 @@ function q = grp2q(p, a, f)
 %#codegen
 
     % Set some defaults.
-    if nargin < 2, a = 1; end;
-    if nargin < 3, f = 4; end;
+    if nargin < 2, a = 1;       end;
+    if nargin < 3, f = 2*(a+1); end;
 
     n      = size(p, 2);
     q      = zeros(4, n, class(p));

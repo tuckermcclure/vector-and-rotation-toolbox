@@ -1,6 +1,9 @@
-# MATLAB Autosaves
+# MATLAB autosaves
 *.m~
 *.asv
+Untitled*
+
+# Built files
 *.mexw64
 *.mexw32
 *.mexa64

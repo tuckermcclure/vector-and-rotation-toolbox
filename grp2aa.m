@@ -8,8 +8,8 @@ function [theta, r] = grp2aa(p, a, f)
 
     % Set defaults so that p approximates the rotation vector for small
     % angles.
-    if nargin < 2 || isempty(a), a = 1; end;
-    if nargin < 3 || isempty(f), f = 4; end;
+    if nargin < 2 || isempty(a), a = 1;       end;
+    if nargin < 3 || isempty(f), f = 2*(a+1); end;
     
     % Get the magnitude and rotation axes.
     if nargout >= 2

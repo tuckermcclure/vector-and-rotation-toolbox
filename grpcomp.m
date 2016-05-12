@@ -4,8 +4,8 @@ function p = grpcomp(p2, p1, a, f)
 
 %#codegen
 
-    if nargin < 3 || isempty(a), a = 1; end;
-    if nargin < 4 || isempty(f), f = 4; end;
+    if nargin < 3 || isempty(a), a = 1;       end;
+    if nargin < 4 || isempty(f), f = 2*(a+1); end;
 
     n = zeros(3, size(p1, 2), class(p1));
     
