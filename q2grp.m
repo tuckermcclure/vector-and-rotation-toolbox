@@ -26,17 +26,19 @@ function p = q2grp(q, a, f)
 
         pos       = q(4,:) > 0;
         s         = zeros(1, n, class(q));
-        s(pos)    = f ./ (a + q(4,pos));
+        s( pos)   = f ./ (a + q(4, pos));
         s(~pos)   = f ./ (a - q(4,~pos));
-        p(:,pos)  = q(1:3,pos);
+        p(:, pos) =  q(1:3, pos);
         p(:,~pos) = -q(1:3,~pos);
-        p         = bsxfun(@times, s, p);
+        p(1,:)    = s .* p(1,:);
+        p(2,:)    = s .* p(2,:);
+        p(3,:)    = s .* p(3,:);
         
     % In code? Loop.
     else
  
         for k = 1:n
-            if q(1,k) > 0
+            if q(4,k) > 0
                 p(:,k) =  f / (a + q(4,k)) * q(1:3,k);
             else
                 p(:,k) = -f / (a - q(4,k)) * q(1:3,k);

@@ -14,10 +14,14 @@ function theta = qerr(q_CA, q_BA)
     % reverse the rotation where q4 < 0 to obtain the smaller rotation.
     if isempty(coder.target) % MATLAB
         theta(theta < 0) = -theta(theta < 0);
+        theta(theta > 1) = 1;
     else % codegen
         for k = 1:size(q_CA, 2)
             if theta(k) < 0
                 theta(k) = -theta(k);
+            end
+            if theta(k) > 1
+                theta(k) = 1;
             end
         end
     end

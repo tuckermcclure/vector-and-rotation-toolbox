@@ -207,6 +207,7 @@ function grp2aa(test)
     g   = q2grp(q, 0, 1);
     mrp = q2grp(q, 1, 1);
     grp = q2grp(q);
+    grp2 = q2grp(q, 0.5, 2);
     
     % Make the right axes and angles.
     [theta_0, r_0] = q2aa(grp2q(g, 0, 1));
@@ -242,6 +243,16 @@ function grp2aa(test)
     [theta_0, r_0] = q2aa(grp2q(grp));
     valid = theta_actual > -2*pi & theta_actual < 2*pi;
     [theta, r] = grp2aa(grp);
+    swap = dot(r, r_0) < 0 & theta == pi;
+    r(:, swap) = -r(:, swap);
+    test.verifyEqual(bsxfun(@times, theta(:,valid),   r(:,valid)), ...
+                     bsxfun(@times, theta_0(:,valid), r_0(:,valid)), ...
+                     'AbsTol', tol);
+    
+	% Do it again for GRP2.
+    [theta_0, r_0] = q2aa(grp2q(grp2));
+    valid = theta_actual > -2*pi & theta_actual < 2*pi;
+    [theta, r] = grp2aa(grp2);
     swap = dot(r, r_0) < 0 & theta == pi;
     r(:, swap) = -r(:, swap);
     test.verifyEqual(bsxfun(@times, theta(:,valid),   r(:,valid)), ...

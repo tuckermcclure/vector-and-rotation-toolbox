@@ -12,6 +12,7 @@ function p = grpcomp(p2, p1, a, f)
     % If in MATLAB, vectorize.
     if isempty(coder.target)
         
+        % TODO: Add a == 0?
         if a == 1
             f2 = f * f;
             p1m2 = p1(1,:).*p1(1,:) + p1(2,:).*p1(2,:) + p1(3,:).*p1(3,:);
@@ -51,32 +52,4 @@ function p = grpcomp(p2, p1, a, f)
         
     end
     
-%     if a == 1
-%         
-%         if f ~= 1
-%             p1 = p1./f;
-%             p2 = p2./f;
-%         end
-%         
-%         p1m2 = p1(1,:).*p1(1,:) + p1(2,:).*p1(2,:) + p1(3,:).*p1(3,:);
-%         p2m2 = p2(1,:).*p2(1,:) + p2(2,:).*p2(2,:) + p2(3,:).*p2(3,:);
-%         p =   (1 - p1m2) * p2 ...
-%             + (1 - p2m2) * p1 ...
-%             - 2 * cross3(p2, p1);
-%         p = (1./(1 + p1m2 .* p2m2 - 2 * p2.' * p1)) * p;
-%         
-%         if f ~= 1
-%             p = f * p;
-%         end
-%         
-%         % TODO: Not vectorized.
-%         
-%     % Otherwise, use quaternions.
-%     else
-%         % TODO: Make codegen version.
-%         q1 = grp2q(p1, a, f);
-%         q2 = grp2q(p2, a, f);
-%         p  = q2grp(qcomp(q2, q1, a, f), a, f);
-%     end
-
 end % grpcomp
