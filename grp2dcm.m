@@ -1,4 +1,4 @@
-function R = grp2dcm(p, a, f)
+function R = grp2dcm(p, a, f, s)
 
 % grp2dcm
 
@@ -6,12 +6,15 @@ function R = grp2dcm(p, a, f)
 
 %#codegen
 
-    % Set some defaults.
-    if nargin < 2 || isempty(a), a = 1;       end;
-    if nargin < 3 || isempty(f), f = 2*(a+1); end;
+    % Set defaults for "near" rotation, and so that for small angles, the
+    % GRPs will approach the rotation vector.
+    if nargin < 2 || isempty(a), a = 1;                   end;
+    if nargin < 3 || isempty(f), f = 2*(a+1);             end;
+    if nargin < 4 || isempty(s), s = false(1, size(p,2)); end;
 
     % When a == 1, we can go directly to the DCM. Otherwise, it's easier to
     % go through the quaternion.
+    % TODO: a == 0?
     if a == 1
         
         % Dims
@@ -54,7 +57,7 @@ function R = grp2dcm(p, a, f)
             n = size(p, 2);
             R = zeros(3, 3, n, class(p));
             for k = 1:n
-                R(:,:,k) = q2dcm(grp2q(p(:,k), a, f));
+                R(:,:,k) = q2dcm(grp2q(p(:,k), a, f, s));
             end
             
         end

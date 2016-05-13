@@ -144,32 +144,12 @@ function test_qdot(test)
         qd  = 1/6 * (qd1 + 2*qd2 + 2*qd3 + qd4);
         q(:,k) = q(:,k-1) + qd * dt;
     end
-    max(q(:) - q_0(:))
+
     test.verifyEqual(q, q_0, 'AbsTol', 1e-6);
     
 end % qdot
-    
-%%%%%%%%%%%
-% grpcomp %
-%%%%%%%%%%%
 
-function test_grpcomp(test)
-    
-    a  = 0;
-    f  = 1;
-    qa = randunit(4);
-    qb = randunit(4);
-    pa = q2grp(qa, a, f);
-    pb = q2grp(qb, a, f);
-    p = grpcomp(pa, pb, a, f);
-    p_0     = q2grp(qcomp(qa, qb), a, f);
-    p_0_alt = bsxfun(@times, -1./vmag2(p_0), p_0);
-    
-    tol = 1e-12;
-    test.verifyTrue(  all(abs(p - p_0)     < tol, 1) ...
-                    | all(abs(p - p_0_alt) < tol, 1));
-
-end % grpcomp
+% TODO: qerr, qdiff
 
 end % methods
 

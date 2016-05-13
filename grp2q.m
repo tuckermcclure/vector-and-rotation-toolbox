@@ -1,4 +1,4 @@
-function q = grp2q(p, a, f)
+function q = grp2q(p, a, f, s)
 
 % grp2q
 %
@@ -24,20 +24,25 @@ function q = grp2q(p, a, f)
 % Copyright 2016 An Uncommon Lab
 
 %#codegen
+    
+    % Set defaults for "near" rotation, and so that for small angles, the
+    % GRPs will approach the rotation vector.
+    if nargin < 2 || isempty(a), a = 1;                   end;
+    if nargin < 3 || isempty(f), f = 2*(a+1);             end;
+    if nargin < 4 || isempty(s), s = false(1, size(p,2)); end;
 
-    % Set some defaults.
-    if nargin < 2, a = 1;       end;
-    if nargin < 3, f = 2*(a+1); end;
-
-    n      = size(p, 2);
-    q      = zeros(4, n, class(p));
-    pm2    = (p(1,:).*p(1,:) + p(2,:).*p(2,:) + p(3,:).*p(3,:)) / (f*f);
-    c1     = sqrt(1 + (1-a*a) * pm2);
-    c2     = 1 + pm2;
-    q(4,:) = (-a * pm2 + c1) ./ c2;
-    s      = (a + c1) ./ c2 / f;
-	q(1,:) = s .* p(1,:);
-	q(2,:) = s .* p(2,:);
-	q(3,:) = s .* p(3,:);
+    n   = size(p, 2);
+    q   = zeros(4, n, class(p));
+    pm2 = (p(1,:).*p(1,:) + p(2,:).*p(2,:) + p(3,:).*p(3,:)) / (f*f);
+    c1  = sqrt(1 + (1-a*a) * pm2);
+    c2  = 1 + pm2;
+    c3  = zeros(1, n, class(p));
+    q(4,s)  = (-a * pm2(s)  - c1(s))  ./ c2(s);
+    c3(s)   = ( a           - c1(s))  ./ c2(s) / f;
+    q(4,~s) = (-a * pm2(~s) + c1(~s)) ./ c2(~s);
+    c3(~s)  = ( a           + c1(~s)) ./ c2(~s) / f;
+	q(1,:) = c3 .* p(1,:);
+	q(2,:) = c3 .* p(2,:);
+	q(3,:) = c3 .* p(3,:);
     
 end % grp2q

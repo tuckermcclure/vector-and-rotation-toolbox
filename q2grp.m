@@ -1,4 +1,4 @@
-function p = q2grp(q, a, f)
+function [p, s] = q2grp(q, a, f)
 
 % g2grp
 % 
@@ -11,11 +11,11 @@ function p = q2grp(q, a, f)
 %#codegen
 
     % Set some defaults.
-    if nargin < 2, a = 1;       end;
-    if nargin < 3, f = 2*(a+1); end;
+    if nargin < 2 || isempty(a), a = 1;       end;
+    if nargin < 3 || isempty(f), f = 2*(a+1); end;
 
-    % p = f * q(2:4) / (a + q(1));  % individual quaternion, q(1) > 0
-    % p = -f * q(2:4) / (a - q(1)); % if q(1) < 0
+    % p =  f * q(2:4) / (a + q(4)); % individual quaternion, q(4) > 0
+    % p = -f * q(2:4) / (a - q(4)); % if q(4) < 0
 
     % Pre-allocate.
     n = size(q, 2);
@@ -24,15 +24,16 @@ function p = q2grp(q, a, f)
     % In MATLAB? Vectorize.
     if isempty(coder.target)
 
+        % Identify the "long way around" sets.
         pos       = q(4,:) > 0;
-        s         = zeros(1, n, class(q));
-        s( pos)   = f ./ (a + q(4, pos));
-        s(~pos)   = f ./ (a - q(4,~pos));
+        c0        = zeros(1, n, class(q));
+        c0( pos)  = f ./ (a + q(4, pos));
+        c0(~pos)  = f ./ (a - q(4,~pos));
         p(:, pos) =  q(1:3, pos);
         p(:,~pos) = -q(1:3,~pos);
-        p(1,:)    = s .* p(1,:);
-        p(2,:)    = s .* p(2,:);
-        p(3,:)    = s .* p(3,:);
+        p(1,:)    = c0 .* p(1,:);
+        p(2,:)    = c0 .* p(2,:);
+        p(3,:)    = c0 .* p(3,:);
         
     % In code? Loop.
     else
@@ -45,6 +46,12 @@ function p = q2grp(q, a, f)
             end
         end
         
+    end
+    
+    % This function always provides the "short" way around, corresponding
+    % to q4 > 0.
+    if nargout >= 2
+        s = false(1, n);
     end
     
 end % q2grp
