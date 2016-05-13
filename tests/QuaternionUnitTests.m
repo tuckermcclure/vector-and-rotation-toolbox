@@ -82,7 +82,8 @@ function test_qdiff(test)
     c_0 = qcomp(a, qinv(b));
     
     test.verifyEqual(c, c_0, 'AbsTol', 10*eps);
-    
+
+    % Check qerr while we're at it.
     theta   = qerr(a, b);
     theta_0 = q2aa(c_0);
     
@@ -148,8 +149,6 @@ function test_qdot(test)
     test.verifyEqual(q, q_0, 'AbsTol', 1e-6);
     
 end % qdot
-
-% TODO: qerr, qdiff
 
 end % methods
 

@@ -26,6 +26,7 @@ function [p, s] = grpalt(p, a, f, s)
         p(1, nz) = c0 .* p(1, nz);
         p(2, nz) = c0 .* p(2, nz);
         p(3, nz) = c0 .* p(3, nz);
+        s        = ~s;
         % For ~nz, the columns must already contain zeros.
         
     % General case
@@ -39,17 +40,21 @@ function [p, s] = grpalt(p, a, f, s)
         % singularity.
         nz        = ~s & (c0 - a - pm2 ~= 0);
         ind       = ~s & nz;
-        c0(ind)    = (a + c0(ind)) ./ (c0(ind) - a - pm2(ind));
-        p(1,  ind) = c0(ind) .* p(1, ind);
-        p(2,  ind) = c0(ind) .* p(2, ind);
-        p(3,  ind) = c0(ind) .* p(3, ind);
+        if any(ind)
+            c0(ind)    = (a + c0(ind)) ./ (c0(ind) - a - pm2(ind));
+            p(1,  ind) = c0(ind) .* p(1, ind);
+            p(2,  ind) = c0(ind) .* p(2, ind);
+            p(3,  ind) = c0(ind) .* p(3, ind);
+        end
         p(:, ~s & ~nz) = 0;
 
         % Handle the "far" rotations next. These *can't* divide by 0.
-        c0(s)      = (-a + c0(s)) ./ (c0(s) + a + pm2(s));
-        p(1, s) = c0(s) .* p(1, s);
-        p(2, s) = c0(s) .* p(2, s);
-        p(3, s) = c0(s) .* p(3, s);
+        if any(s)
+            c0(s)      = (-a + c0(s)) ./ (c0(s) + a + pm2(s));
+            p(1, s) = c0(s) .* p(1, s);
+            p(2, s) = c0(s) .* p(2, s);
+            p(3, s) = c0(s) .* p(3, s);
+        end
         
         % The sets are now swapped.
         s = ~s;

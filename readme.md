@@ -53,7 +53,7 @@ Differences from the Aerospace Toolbox from The MathWorks:
 Euler Angles
 ------------
 
-This toolbox converts to and from Euler angles. There are 12 possible Euler angle sequences. One particularly common sequence is the 3-2-1 or aerospace sequence. This says to first rotation about the 3 axis, then about the new 2 axis, then about the new 1 axis, by the given angles. The 3-2-1 sequence is used as a default and will result in the most efficient operations (e.g., ea2q(ea)). However, a custom sequence can be specified in functions that deal with Euler angles (e.g., ea2q(ea, [3 1 3])), and these more general forms require more runtime and RAM.
+This toolbox converts to and from Euler angles. There are 12 possible Euler angle sequences. One particularly common sequence is the 3-2-1 or aerospace sequence. This says to first rotate about the 3 axis, then about the new 2 axis, then about the new 1 axis, by the given angles. The 3-2-1 sequence is used as a default and will result in the most efficient operations (e.g., ea2q(ea)). However, a custom sequence can be specified in functions that deal with Euler angles (e.g., ea2q(ea, [3 1 3])), and these more general forms require more runtime and RAM.
 
 
 Generalized Rodrigues Parameters

@@ -31,16 +31,23 @@ function q = grp2q(p, a, f, s)
     if nargin < 3 || isempty(f), f = 2*(a+1);             end;
     if nargin < 4 || isempty(s), s = false(1, size(p,2)); end;
 
-    n   = size(p, 2);
+    n = size(p, 2);
+    
+    p(:,s) = grpalt(p(:,s), a, f, s(s));
+%     s = false(1, n);
+    
+    % TODO: codegen version, a = 0 version, a = 1 version
     q   = zeros(4, n, class(p));
     pm2 = (p(1,:).*p(1,:) + p(2,:).*p(2,:) + p(3,:).*p(3,:)) / (f*f);
     c1  = sqrt(1 + (1-a*a) * pm2);
     c2  = 1 + pm2;
-    c3  = zeros(1, n, class(p));
-    q(4,s)  = (-a * pm2(s)  - c1(s))  ./ c2(s);
-    c3(s)   = ( a           - c1(s))  ./ c2(s) / f;
-    q(4,~s) = (-a * pm2(~s) + c1(~s)) ./ c2(~s);
-    c3(~s)  = ( a           + c1(~s)) ./ c2(~s) / f;
+%     c3  = zeros(1, n, class(p));
+%     q(4,s)  = (-a * pm2(s)  - c1(s))  ./ c2(s);
+%     c3(s)   = ( a           - c1(s))  ./ c2(s) / f;
+%     q(4,~s) = (-a * pm2(~s) + c1(~s)) ./ c2(~s);
+%     c3(~s)  = ( a           + c1(~s)) ./ c2(~s) / f;
+    q(4,:) = (-a * pm2 + c1) ./ c2;
+    c3     = ( a       + c1) ./ c2 / f;
 	q(1,:) = c3 .* p(1,:);
 	q(2,:) = c3 .* p(2,:);
 	q(3,:) = c3 .* p(3,:);

@@ -24,16 +24,17 @@ function [p, s] = q2grp(q, a, f)
     % In MATLAB? Vectorize.
     if isempty(coder.target)
 
-        % Identify the "long way around" sets.
-        pos       = q(4,:) > 0;
-        c0        = zeros(1, n, class(q));
-        c0( pos)  = f ./ (a + q(4, pos));
-        c0(~pos)  = f ./ (a - q(4,~pos));
-        p(:, pos) =  q(1:3, pos);
-        p(:,~pos) = -q(1:3,~pos);
-        p(1,:)    = c0 .* p(1,:);
-        p(2,:)    = c0 .* p(2,:);
-        p(3,:)    = c0 .* p(3,:);
+        % Create the coefficient so as to return only the "short way
+        % around" sets.
+        pos      = q(4,:) > 0;
+        c0       = zeros(1, n, class(q));
+        c0( pos) =  f ./ (a + q(4, pos));
+        c0(~pos) = -f ./ (a - q(4,~pos));
+        
+        % Create the vector.
+        p(1,:)    = c0 .* q(1,:);
+        p(2,:)    = c0 .* q(2,:);
+        p(3,:)    = c0 .* q(3,:);
         
     % In code? Loop.
     else

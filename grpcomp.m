@@ -16,10 +16,10 @@ function [p, s] = grpcomp(p2, p1, a, f, s2, s1)
     % If in MATLAB, vectorize.
     if isempty(coder.target)
         
-        % We must operate on the same sets, so swap p2 where it's from a
-        % different set than p1.
-        swap     = xor(s1, s2);
-        p2(:,swap) = grpalt(p2(:,swap), a, f, s2(swap));
+%         % We must operate on the same sets, so swap p1 where it's from a
+%         % different set than p2.
+%         swap     = xor(s1, s2);
+%         p1(:,swap) = grpalt(p1(:,swap), a, f, s1(swap));
         
         % TODO: Add a == 0?
         if a == 1
@@ -34,7 +34,7 @@ function [p, s] = grpcomp(p2, p1, a, f, s2, s1)
             p(1,:) = (p(1,:) + c0 .* p2(1,:) + c1 .* p1(1,:)) .* c2;
             p(2,:) = (p(2,:) + c0 .* p2(2,:) + c1 .* p1(2,:)) .* c2;
             p(3,:) = (p(3,:) + c0 .* p2(3,:) + c1 .* p1(3,:)) .* c2;
-            s = s1;
+            s = s2;
         else
             q1     = grp2q(p1, a, f, s1);
             q2     = grp2q(p2, a, f, s2);
@@ -45,11 +45,11 @@ function [p, s] = grpcomp(p2, p1, a, f, s2, s1)
     else
         
         p = zeros(3, n, class(p1));
-        s = s1;
+        s = s2;
         if a == 1
             f2 = f * f;
             for k = 1:n
-                if s1(k) ~= s2(k)
+                if s2(k) ~= s2(k)
                     p2s = grpalt(p2(:,k), a, f, s2(k));
                 else
                     p2s = p2(:,k);

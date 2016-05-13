@@ -26,7 +26,9 @@ function [theta, r] = grp2aa(p, a, f, s)
     
     % The angle is easy when a == 1. There's a bit more footwork 
     % when a ~= 1.
-    if a == 1
+    if a == 0
+        theta = 2 * atan(pm);
+    elseif a == 1
         theta = 4 * atan(pm);
     else        
         pm = pm .* pm;
