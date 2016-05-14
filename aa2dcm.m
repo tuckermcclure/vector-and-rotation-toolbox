@@ -30,7 +30,7 @@ function R = aa2dcm(r, theta)
            ['%s: The number of input axes must match the number of ' ...
             'input angles.'], mfilename);
     
-    % Pre-allocate the DCMs.
+    % Preallocate the DCMs.
     R = zeros(3, 3, length(theta), class(theta));
 
     % If running in regular MATLAB, vectorize.

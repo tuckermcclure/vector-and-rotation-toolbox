@@ -32,7 +32,7 @@ function ea = dcm2ea(R, seq)
         alpha = -1;
     end
     
-    % Pre-allocate.
+    % Preallocate.
     ea = zeros(3, size(R, 3), class(R));
 
     % If symmetric...

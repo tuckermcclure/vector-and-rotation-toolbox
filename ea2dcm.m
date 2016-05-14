@@ -28,7 +28,7 @@ function R = ea2dcm(ea, seq)
         alpha = -1;
     end
     
-    % Pre-allocate.
+    % Preallocate.
     n = size(ea, 2);
     R = zeros(3, 3, n, class(ea));
     

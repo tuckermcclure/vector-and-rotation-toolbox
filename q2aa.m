@@ -80,7 +80,7 @@ function [theta, r] = q2aa(q)
     % Otherwise, loop.
     else
         
-        % Pre-allocate.
+        % Preallocate.
         n     = size(q, 2);
         theta = zeros(1, n, class(q));
         

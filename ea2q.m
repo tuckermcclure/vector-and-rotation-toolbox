@@ -19,7 +19,7 @@ function q = ea2q(ea, seq)
         alpha = -1;
     end
     
-    % Pre-allocate.
+    % Preallocate.
     n = size(ea, 2);
     q = zeros(4, n, class(ea));
     
