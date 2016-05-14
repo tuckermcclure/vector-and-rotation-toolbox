@@ -12,10 +12,13 @@ It supports MATLAB R2011a and newer.
 TODO
 ----
 Finish up vectorized/codegen code.
+Fix alpha stuff.
 Re-test.
 Update the headers.
 Examples.
 Put on aul? Convert to doc_?
+Look up quaternion interpolation.
+Intelligent search for qinterp.
 
 
 Axis-Angle Representations

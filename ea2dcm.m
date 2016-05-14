@@ -44,96 +44,84 @@ function R = ea2dcm(ea, seq)
             k = 1;
         end
 
-%         % If running in regular MATLAB, vectorize.
-%         if isempty(coder.target)
+        cphi   = cos(ea(1,:));
+        ctheta = cos(ea(2,:));
+        cpsi   = cos(ea(3,:));
+
+        sphi   = sin(ea(1,:));
+        stheta = sin(ea(2,:));
+        spsi   = sin(ea(3,:));
+
+        R(i,i,:) = ctheta;
+        R(i,j,:) = stheta .* sphi;
+
+        R(j,i,:) = spsi .* stheta;
+        R(j,j,:) = cpsi .* cphi - spsi .* ctheta .* sphi;
+        
+        R(k,k,:) = -spsi .* sphi + cpsi .* ctheta .* cphi;
+
+        if alpha > 0
             
-            cphi   = cos(ea(1,:));
-            ctheta = cos(ea(2,:));
-            cpsi   = cos(ea(3,:));
+            R(i,k,:) = -stheta .* cphi;
             
-            sphi   = sin(ea(1,:));
-            stheta = sin(ea(2,:));
-            spsi   = sin(ea(3,:));
+            R(j,k,:) = cpsi .* sphi + spsi .* ctheta .* cphi;
             
-            R(i,i,:) = ctheta;
-            R(i,j,:) = stheta .* sphi;
-            R(i,k,:) = -alpha * stheta .* cphi;
+            R(k,i,:) = cpsi .* stheta;
+            R(k,j,:) = -spsi .* cphi - cpsi .* ctheta .* sphi;
             
-            R(j,i,:) = spsi .* stheta;
-            R(j,j,:) = cpsi .* cphi - spsi .* ctheta .* sphi;
-            R(j,k,:) = alpha * (cpsi .* sphi + spsi .* ctheta .* cphi);
+        else
             
-            R(k,i,:) = alpha * cpsi .* stheta;
-            R(k,j,:) = -alpha * (spsi .* cphi + cpsi .* ctheta .* sphi);
-            R(k,k,:) = -spsi .* sphi + cpsi .* ctheta .* cphi;
+            R(i,k,:) = stheta .* cphi;
             
-%         % Otherwise, write out the loop.
-%         else
-%             
-%             for k = 1:n
-% TODO
-%                 
-%                 cphi   = cos(ea(1,k));
-%                 ctheta = cos(ea(2,k));
-%                 cpsi   = cos(ea(3,k));
-% 
-%                 sphi   = sin(ea(1,k));
-%                 stheta = sin(ea(2,k));
-%                 spsi   = sin(ea(3,k));
-% 
-%                 R(i,i,k) = ctheta;
-%                 R(i,j,k) = stheta .* sphi;
-%                 R(i,k,k) = -alpha * stheta .* cphi;
-% 
-%                 R(j,i,k) = spsi .* stheta;
-%                 R(j,j,k) = spsi .* sphi - spsi .* ctheta .* sphi;
-%                 R(j,k,k) = alpha * (spsi .* sphi + spsi .* ctheta .* cphi);
-% 
-%                 R(k,i,k) = alpha * spsi .* stheta;
-%                 R(k,j,k) = -alpha * (spsi .* cphi + cpsi .* ctheta .* sphi);
-%                 R(k,k,k) = -spsi .* sphi + cpsi .* ctheta .* cphi;
-%                 
-%             end
-%             
-%         end
+            R(j,k,:) = -cpsi .* sphi - spsi .* ctheta .* cphi;
+            
+            R(k,i,:) = -cpsi .* stheta;
+            R(k,j,:) = spsi .* cphi + cpsi .* ctheta .* sphi;
+            
+        end
         
     % Otherwise, must be asymmetric.
     else
         
         k = seq(3);
         
-%         % If running in regular MATLAB, vectorize.
-%         if isempty(coder.target)
-            
-            cphi   = cos(ea(1,:));
-            ctheta = cos(ea(2,:));
-            cpsi   = cos(ea(3,:));
-            
-            sphi   = sin(ea(1,:));
-            stheta = sin(ea(2,:));
-            spsi   = sin(ea(3,:));
-            
-            R(i,i,:) = cpsi .* ctheta;
-            R(i,j,:) = alpha * spsi .* cphi + cpsi .* stheta .* sphi;
-            R(i,k,:) = spsi .* sphi -alpha * cpsi .* stheta .* cphi;
-            
-            R(j,i,:) = -alpha * spsi .* ctheta;
-            R(j,j,:) = cpsi .* cphi - alpha * spsi .* stheta .* sphi;
-            R(j,k,:) = alpha .* cpsi .* sphi + spsi .* stheta .* cphi;
-            
-            R(k,i,:) = alpha * stheta;
-            R(k,j,:) = -alpha * ctheta .* sphi;
-            R(k,k,:) = ctheta .* cphi;
-            
-%         % Otherwise, write out the loop.
-%         else
-%             
-%             for k = 1:size(R, 3)
-% TODO
-%             end
-%             
-%         end
+        cphi   = cos(ea(1,:));
+        ctheta = cos(ea(2,:));
+        cpsi   = cos(ea(3,:));
+
+        sphi   = sin(ea(1,:));
+        stheta = sin(ea(2,:));
+        spsi   = sin(ea(3,:));
+
+        R(i,i,:) = cpsi .* ctheta;
         
+        R(k,k,:) = ctheta .* cphi;
+
+        if alpha > 0
+            
+            R(i,j,:) = spsi .* cphi + cpsi .* stheta .* sphi;
+            R(i,k,:) = spsi .* sphi - cpsi .* stheta .* cphi;
+            
+            R(j,i,:) = -spsi .* ctheta;
+            R(j,j,:) = cpsi .* cphi - spsi .* stheta .* sphi;
+            R(j,k,:) = cpsi .* sphi + spsi .* stheta .* cphi;
+            
+            R(k,i,:) = stheta;
+            R(k,j,:) = -ctheta .* sphi;
+        else
+            
+            R(i,j,:) = -spsi .* cphi + cpsi .* stheta .* sphi;
+            R(i,k,:) =  spsi .* sphi + cpsi .* stheta .* cphi;
+            
+            R(j,i,:) = spsi .* ctheta;
+            R(j,j,:) =  cpsi .* cphi + spsi .* stheta .* sphi;
+            R(j,k,:) = -cpsi .* sphi + spsi .* stheta .* cphi;
+            
+            R(k,i,:) = -stheta;
+            R(k,j,:) = ctheta .* sphi;
+            
+        end
+
     end
 
 end % ea2dcm

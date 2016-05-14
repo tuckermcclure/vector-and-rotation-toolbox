@@ -25,11 +25,26 @@ function qi = qinterpf(qa, qb, f)
             'or have the same number of columns as the quaternions.'], ...
            mfilename);
 
-    % TODO: Is there a better way?
-
-    qi = qinv(qa);
-    qi = qcomp(qb, qi);
-    [theta, r] = q2aa(qi);
-    qi = qcomp(aa2q(f .* theta, r), qa);
+    % MATLAB
+    if isempty(coder.target)
+        
+        qi = qinv(qa);
+        qi = qcomp(qb, qi);
+        [theta, r] = q2aa(qi);
+        qi = qcomp(aa2q(f .* theta, r), qa);
+        
+    % codegen
+    else
+        
+        n  = size(qa, 2);
+        qi = zeros(4, n, class(qa));
+        for k = 1:size(qa, 2)
+            qt = qinv(qa(:,k));
+            qt = qcomp(qb(:,k), qt);
+            [theta, r] = q2aa(qt);
+            qi(:,k) = qcomp(aa2q(f .* theta, r), qa(:,k));
+        end
+        
+    end
     
 end % qinterpf

@@ -22,39 +22,54 @@ function [theta, r] = dcm2aa(R)
     % Axes of rotation
     if nargout >= 2
         
-%         % If in MATLAB...
-%         if isempty(coder.target)
-% 
-%             % TODO: Vectorize
-%             if theta == 0
-%                 r = [1; 0; 0];
-%             elseif theta == pi
-%                 if R(1,1) > R(2,2) && R(1,1) > R(3,3)
-%                     r = [R(1,1) + 1; R(2,1); R(3,1)];
-%                 elseif R(2,2) > R(3,3)
-%                     r = [R(1,2); R(2,2) + 1; R(3,2)];
-%                 else
-%                     r = [R(1,3); R(2,3); R(3,3) + 1];
-%                 end
-%                 r = normalize(r);
-%             else
-%                 r        = zeros(3, n, class(R));
-%                 r(1,:)   = R(2,3,:) - R(3,2,:);
-%                 r(2,:)   = R(3,1,:) - R(1,3,:);
-%                 r(3,:)   = R(1,2,:) - R(2,1,:);
-%                 r        = normalize(r);
-%             end
-%             
-%         % Otherwise, codegen...
-%         else
+        % Preallocate.
+        r = zeros(3, n, class(R));
+        
+        % If in MATLAB...
+        if isempty(coder.target)
             
-            r = zeros(3, n, class(R));
+            theta_is_zero = theta == 0;
+            r(1,     theta_is_zero) = 1;
+            r(2:end, theta_is_zero) = 0;
+            
+            theta_is_pi       = theta == pi;
+            use_column_1      =   theta_is_pi ...
+                                & reshape(R(1,1,:) >= R(3,3,:), [1 n]) ...
+                                & reshape(R(1,1,:) >= R(2,2,:), [1 n]);
+            r(1,use_column_1) = R(1,1,use_column_1) + 1;
+            r(2,use_column_1) = R(2,1,use_column_1);
+            r(3,use_column_1) = R(3,1,use_column_1);
+            
+            use_column_2      =   theta_is_pi ...
+                                & reshape(R(2,2,:) >= R(1,1,:), [1 n]) ...
+                                & reshape(R(2,2,:) >= R(3,3,:), [1 n]);
+            r(1,use_column_2) = R(1,2,use_column_2);
+            r(2,use_column_2) = R(2,2,use_column_2) + 1;
+            r(3,use_column_2) = R(3,2,use_column_2);
+            
+            use_column_3 = theta_is_pi & ~(use_column_1 | use_column_2);
+            r(1,use_column_3) = R(1,3,use_column_3);
+            r(2,use_column_3) = R(2,3,use_column_3);
+            r(3,use_column_3) = R(3,3,use_column_3) + 1;
+            
+            r(:,theta_is_pi)   = normalize(r(:,theta_is_pi));
+            
+            normal      = ~theta_is_zero & ~theta_is_pi;
+            d           = 1./(2 * sin(theta(normal)));
+            s           = sum(normal);
+            r(1,normal) = d .* reshape(R(2,3,normal) - R(3,2,normal), [1 s]);
+            r(2,normal) = d .* reshape(R(3,1,normal) - R(1,3,normal), [1 s]);
+            r(3,normal) = d .* reshape(R(1,2,normal) - R(2,1,normal), [1 s]);
+            
+        % Otherwise, codegen...
+        else
+            
             for k = 1:n
                 
                 % If there's no rotation, then the axis is arbitrary.
                 if theta(k) == 0
                     
-                    r(1,k) = 1;
+                    r(1,k) = 1; % (The rest are already zeros.)
                     
                 % If the rotation is half a circle, then the rotation axis
                 % will be proportional to a column of eye(3) + R. Choose
@@ -91,7 +106,7 @@ function [theta, r] = dcm2aa(R)
                 
             end
             
-%         end
+        end
         
     end
 

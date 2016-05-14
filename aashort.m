@@ -8,13 +8,30 @@ function [theta, r] = aashort(theta, r)
     assert(size(r, 2) == size(theta, 2), ...
            ['%s: The number of input axes must match the number of ' ...
             'input angles.'], mfilename);
+    
+    % MATLAB
+    if isempty(coder.target)
         
-    % TODO: Vectorize. Name?
-    theta      = mod(theta, 2*pi);
-    ind        = theta >= pi;
-    theta(ind) = 2*pi - theta(ind);
-    if nargout >= 2
-        r(:,ind) = -r(:,ind);
+        theta      = mod(theta, 2*pi);
+        ind        = theta >= pi;
+        theta(ind) = 2*pi - theta(ind);
+        if nargout >= 2
+            r(:,ind) = -r(:,ind);
+        end
+        
+    % codegen
+    else
+        
+        for k = 1:length(theta)
+            theta(k) = mod(theta(k));
+            if theta(k) > pi
+                theta(k) = 2*pi - theta(k);
+                if nargout >= 2
+                    r(:, k) = 0;
+                end
+            end
+        end
+        
     end
     
 end % aashort
