@@ -18,7 +18,7 @@ function q = dcm2q(R)
     assert(size(R, 1) == 3 && size(R, 2) == 3, ...
            '%s: The axes must be 3-by-n.', mfilename);
 
-    % Pre-allocate.
+    % Preallocate.
     q = zeros(4, n, class(R));
     
     % Split the conversion so as to divide by the largest possible number.

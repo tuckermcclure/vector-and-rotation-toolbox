@@ -26,7 +26,7 @@ function [v, v_mag] = normalize(v)
     else
 
         % If we need each v_mag...
-        if nargin >= 2
+        if nargout >= 2
             
             v_mag = vmag(v);
             for k = 1:size(v, 2)

@@ -47,13 +47,15 @@ end % norm stuff
 
 function test_rae2xyz(test)
     
+    tol = 1e-12;
+    
     test.verifyEqual(rae2xyz([3; pi/4; 0]), ...
                      3/sqrt(2)*[1; 1; 0], ...
-                     'AbsTol', 1e-14);
+                     'AbsTol', tol);
     
     test.verifyEqual(rae2xyz([5; 0; pi/4]), ...
                      5/sqrt(2)*[1; 0; -1], ...
-                     'AbsTol', 1e-14);
+                     'AbsTol', tol);
                  
 	n   = 100;
 	rae = [10   * rand(1, n); ...
@@ -64,21 +66,21 @@ function test_rae2xyz(test)
         v(:,k) = Rz(rae(2,k)).' * Ry(rae(3,k)).' * [rae(1,k); 0; 0];
     end
     
-    test.verifyEqual(rae2xyz(rae), v, 'AbsTol', 1e-14);
+    test.verifyEqual(rae2xyz(rae), v, 'AbsTol', tol);
     
     % Test xyz2rae while we're at it.
     
     test.verifyEqual(xyz2rae(3/sqrt(2)*[1; 1; 0]), ...
                      [3; pi/4; 0], ...
-                     'AbsTol', 1e-14);
+                     'AbsTol', tol);
     
     test.verifyEqual(xyz2rae(5/sqrt(2)*[1; 0; -1]), ...
                      [5; 0; pi/4], ...
-                     'AbsTol', 1e-14);
+                     'AbsTol', tol);
     
 	rae_1 = xyz2rae(v);
     rae_1(2, rae_1(2,:) < 0) = rae_1(2, rae_1(2,:) < 0) + 2*pi;
-    test.verifyEqual(rae_1, rae, 'AbsTol', 1e-14);
+    test.verifyEqual(rae_1, rae, 'AbsTol', tol);
     
 end % rae2xyz
 

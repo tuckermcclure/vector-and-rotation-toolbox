@@ -11,12 +11,12 @@ function qi = qinterp(t, q, ti)
     for k = 1:n
 
         % TODO: Use an intelligent search. (..., 'Ordered', true, ...).
-        index = find(t < ti(k), 1, 'last');
-        if isempty(index)
+        if ti(k) <= t(1)
             qi(:,k) = q(:,1);
-        elseif index == n
+        elseif ti(k) >= t(end)
             qi(:,k) = q(:,end);
         else
+            index = find(t < ti(k), 1, 'last');
             f = (ti(k) - t(index)) / (t(index+1) - t(index));
             qi(:,k) = qinterpf(q(:,index), q(:,index+1), f);
         end
