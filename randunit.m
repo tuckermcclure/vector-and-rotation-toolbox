@@ -15,15 +15,16 @@ function v_hat = randunit(m, n)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
 
-    % Defaults
+    % Default to a 3-by-1 random vector.
     if nargin < 1, m = 3; end;
     if nargin < 2, n = 1; end;
 
-    v_hat = randn(m, n);
-    v_hat = normalize(v_hat);
+    % Check dimensions.
+    assert(isscalar(m) && isscalar(n), ...
+           '%s: The input dimensions must be scalars.', mfilename);
+
+    v_hat = normalize(randn(m, n));
 
 end % randunit

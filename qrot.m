@@ -10,6 +10,14 @@ function v = qrot(q, v)
 
 %#codegen
 
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    if size(v, 1) ~= 3 && size(v, 2) == 3, v = v.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+    assert(size(v, 1) == 3, ...
+           '%s: The vectors must be 3-by-n.', mfilename);
+
     % Faster in MATLAB:
     if isempty(coder.target)
 

@@ -13,6 +13,16 @@ function theta = mrperr(p_CA, p_BA, f)
     % rotation vector.
     if nargin < 3 || isempty(f), f = 1; end;
 
+    % Check dimensions.
+    assert(nargin >= 2, ...
+           '%s: At least two inputs are required.', mfilename);
+    assert(size(p_CA, 1) == 3 && size(p_BA, 1) == 3, ...
+           '%s: The MRPs must be 3-by-n.', mfilename);
+    assert(size(p_CA, 2) == size(p_BA, 2), ...
+           '%s: The number of MRPs in each input must match.', mfilename);
+    assert(all(size(f) == 1) && f > 0, ...
+           '%s: The scaling factor must be a positive scalar.', mfilename);
+
     if isempty(coder.target)
         theta = mrp2aa(mrpcomp(p_CA, -p_BA, f), f);
     else

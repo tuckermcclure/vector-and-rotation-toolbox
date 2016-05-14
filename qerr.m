@@ -4,6 +4,12 @@ function theta = qerr(q_CA, q_BA)
 
 %#codegen
 
+    % Check dimensions.
+    if size(q_CA, 1) ~= 4 && size(q_CA, 2) == 4, q_CA = q_CA.'; end;
+    if size(q_BA, 1) ~= 4 && size(q_BA, 2) == 4, q_BA = q_BA.'; end;
+    assert(size(q_CA, 1) == 4 && size(q_BA, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+
     % theta = q2aa(qcomp(q_CA, qinv(q_BA))), but this is faster.
     
     % Dot the quaternions together.

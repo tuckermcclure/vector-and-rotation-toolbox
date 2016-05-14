@@ -33,9 +33,12 @@ function R = Ry(theta)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
+
+    % Check dimensions.
+    if size(theta, 1) ~= 1 && size(theta, 2) == 1; theta = theta.'; end;
+    assert(size(theta, 1) == 1, ...
+           '%s: The angles should be 1-by-n.', mfilename);
 
     % c = cos(theta);
     % s = sin(theta);

@@ -40,6 +40,11 @@ function [theta, r] = q2aa(q)
 
 %     % Set a default tolerance.
 %     if nargin < 2, tol = eps; end;
+
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
     
     % If in MATLAB, vectorize.
     if isempty(coder.target)

@@ -14,6 +14,13 @@ function p = q2mrp(q, f)
     % rotation vector.
     if nargin < 2 || isempty(f), f = 1; end;
 
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+    assert(all(size(f) == 1) && f > 0, ...
+           '%s: The scaling factor must be a positive scalar.', mfilename);
+
     % p =  f * q(1:3) / (1 + q(4)); % individual quaternion, q(4) > 0
     % p = -f * q(1:3) / (1 - q(4)); % if q(4) < 0
 

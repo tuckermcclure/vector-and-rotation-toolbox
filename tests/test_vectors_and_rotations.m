@@ -4,7 +4,7 @@ rebuild = true;
 
 source = 'tests';
 target = 'mex';
-target = source;
+% target = source;
 this   = fileparts(mfilename('fullpath'));
 if ~exist(target, 'dir')
     mkdir(target);
@@ -32,10 +32,10 @@ end
 if stop_after_tests
     return;
 end
-
+return;
 % Build everything to MEX.
 if rebuild
-    built = build_vectors_and_rotations();
+    built = build_vectors_and_rotations([], target);
 else
     files = dir(['*_mex.' mexext()]);
     files = {files.name}.';

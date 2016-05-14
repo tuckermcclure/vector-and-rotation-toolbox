@@ -18,7 +18,7 @@ theta = pi/4;
 % translate a vector known in A to the B frame.
 
 r_A  = [1; 0; 0];               % a vector in the A frame
-R_BA = aa2dcm(r, theta)         % rotation matrix of B wrt A
+R_BA = aa2dcm(theta, r)         % rotation matrix of B wrt A
 r_B  = R_BA * r_A               % the vector, as seen in B
 
 %%
@@ -38,7 +38,7 @@ R_BA = Ry(theta)
 %%
 % We can express the rotation as a quaternion too.
 
-q_BA = aa2q(r, theta) % quaternion of B wrt A
+q_BA = aa2q(theta, r) % quaternion of B wrt A
 
 %%
 % We can also calculate the quaternion from the rotation matrix.
@@ -82,7 +82,7 @@ R_BA = ea2dcm(ea_BA)
 % but they have their uses. Let's create the Gibbs vector for this
 % rotation:
 
-g_BA = aa2grp(r, theta, 0, 1)
+g_BA = aa2grp(theta, r, 0, 1)
 
 %%
 % We could have used the quaterion as well:

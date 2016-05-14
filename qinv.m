@@ -10,6 +10,11 @@ function q = qinv(q)
 
 %#codegen
 
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+
     % This is pretty easy.
     q(1,:) = -q(1,:);
     q(2,:) = -q(2,:);

@@ -14,11 +14,11 @@ function q = dcm2q(R)
 %#codegen
 
     % Dims
-    n = size(R, 3);
     assert(size(R, 1) == 3 && size(R, 2) == 3, ...
-           '%s: The axes must be 3-by-n.', mfilename);
+           '%s: The DCMs must be 3-by-3-by-n.', mfilename);
 
     % Preallocate.
+    n = size(R, 3);
     q = zeros(4, n, class(R));
     
     % Split the conversion so as to divide by the largest possible number.

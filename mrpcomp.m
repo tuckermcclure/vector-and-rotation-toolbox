@@ -8,6 +8,16 @@ function p = mrpcomp(p2, p1, f)
     % rotation vector.
     if nargin < 3 || isempty(f), f = 1; end;
 
+    % Check dimensions.
+    assert(nargin >= 2, ...
+           '%s: At least two inputs are required.', mfilename);
+    assert(size(p2, 1) == 3 && size(p1, 1) == 3, ...
+           '%s: The MRPs must be 3-by-n.', mfilename);
+    assert(size(p2, 2) == size(p1, 2), ...
+           '%s: The number of MRPs in each input must match.', mfilename);
+    assert(all(size(f) == 1) && f > 0, ...
+           '%s: The scaling factor must be a positive scalar.', mfilename);
+
     % If in MATLAB, vectorize.
     if isempty(coder.target)
         

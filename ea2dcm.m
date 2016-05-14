@@ -7,7 +7,7 @@ function R = ea2dcm(ea, seq)
     % Default to the aerospace sequence.
     if nargin < 2 || isempty(seq), seq = [3 2 1]; end;
     
-    % Make sure it's a valid Euler angle sequence.
+    % Check dims and make sure it's a valid Euler angle sequence.
     assert(size(ea, 1) == 3, ...
            '%s: The Euler angles must be 3-by-n.', mfilename);
     assert(size(seq, 1) == 1 && size(seq, 2) == 3, ...

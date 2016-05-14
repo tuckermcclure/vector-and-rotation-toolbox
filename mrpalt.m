@@ -8,6 +8,14 @@ function p = mrpalt(p, f)
     % rotation vector.
     if nargin < 2 || isempty(f), f = 1; end;
 
+    % Check dimensions.
+    assert(nargin >= 1, ...
+           '%s: At least one input is required.', mfilename);
+    assert(size(p, 1) == 3, ...
+           '%s: The MRPs must be 3-by-n.', mfilename);
+    assert(all(size(f) == 1) && f > 0, ...
+           '%s: The scaling factor must be a positive scalar.', mfilename);
+
     % TODO: codegen
     pm2      = p(1,:).*p(1,:) + p(2,:).*p(2,:) + p(3,:).*p(3,:);
     nz       = pm2 > 0;

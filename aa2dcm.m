@@ -1,4 +1,4 @@
-function R = aa2dcm(r, theta)
+function R = aa2dcm(theta, r)
 
 % aa2dcm
 %
@@ -24,6 +24,8 @@ function R = aa2dcm(r, theta)
     % Check dimensions.
     assert(nargin == 2, ...
            '%s: Two inputs are required.', mfilename);
+    assert(size(theta, 1) == 1, ...
+           '%s: The angles must be 1-by-n.', mfilename);
     assert(size(r, 1) == 3, ...
            '%s: The axes must be 3-by-n.', mfilename);
     assert(size(r, 2) == size(theta, 2), ...

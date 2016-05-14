@@ -11,10 +11,10 @@ It supports MATLAB R2011a and newer.
 
 TODO
 ----
-Switch to angle-axis.
 Finish up vectorized/codegen code.
 Re-test.
 Update the headers.
+Examples.
 Put on aul? Convert to doc_?
 
 

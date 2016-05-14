@@ -1,4 +1,4 @@
-function q = aa2q(r, theta)
+function q = aa2q(theta, r)
 
 % aa2q
 %
@@ -20,6 +20,17 @@ function q = aa2q(r, theta)
 % Copyright 2016 An Uncommon Lab
 
 %#codegen
+
+    % Check dimensions.
+    assert(nargin == 2, ...
+           '%s: Two inputs are required.', mfilename);
+    assert(size(theta, 1) == 1, ...
+           '%s: The angles must be 1-by-n.', mfilename);
+    assert(size(r, 1) == 3, ...
+           '%s: The axes must be 3-by-n.', mfilename);
+    assert(size(r, 2) == size(theta, 2), ...
+           ['%s: The number of input axes must match the number of ' ...
+            'input angles.'], mfilename);
 
     % This is pleasantly both vectorized for speed in MATLAB *and* good C
     % code generation.

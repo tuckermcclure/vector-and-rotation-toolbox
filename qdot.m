@@ -24,6 +24,15 @@ function qd = qdot(q, w, k, dt)
     % Set default orthonormality correction factor.
     if nargin < 3, k = 0.5; end;
     if nargin == 4 && isempty(k), k = 0.5/dt; end;
+
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+    assert(size(w, 1) == 3, ...
+           '%s: The rotation rates must be 3-by-n.', mfilename);
+    assert(all(size(k) == 1) && k >= 0, ...
+           '%s: The rotation rates must be 3-by-n.', mfilename);
         
     % Propagate.
     % qd = 0.5 * [-crs3(w), w; -w.', 0] * q;

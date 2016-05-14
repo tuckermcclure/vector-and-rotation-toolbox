@@ -6,6 +6,18 @@ function qi = qinterp(t, q, ti)
 
 %#codegen
 
+    % Check dimensions.
+    if size(t, 1)  ~= 1 && size(t, 2)  == 1, t  = t.';  end;
+    if size(q, 1)  ~= 4 && size(q, 2)  == 4, q  = q.';  end;
+    if size(ti, 1) ~= 1 && size(ti, 2) == 1, ti = ti.'; end;
+    assert(size(t, 1) == 1 && size(ti, 1) == 1, ...
+           '%s: The time inputs must be 1-by-n.', mfilename);
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+    assert(size(t, 2) == size(q, 2), ...
+           ['%s: The time inputs and quaternions must have the ' ...
+            'same number of columns.'], mfilename);
+
     n  = size(ti, 2);
     qi = zeros(4, n, class(q));
     for k = 1:n

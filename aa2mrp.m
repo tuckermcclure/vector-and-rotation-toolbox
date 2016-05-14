@@ -1,4 +1,4 @@
-function p = aa2mrp(r, theta, f)
+function p = aa2mrp(theta, r, f)
 
 % aa2mrp
 
@@ -13,13 +13,15 @@ function p = aa2mrp(r, theta, f)
     % Check dimensions.
     assert(nargin >= 2, ...
            '%s: At least two inputs are required.', mfilename);
+    assert(size(theta, 1) == 1, ...
+           '%s: The angles must be 1-by-n.', mfilename);
     assert(size(r, 1) == 3, ...
            '%s: The axes must be 3-by-n.', mfilename);
     assert(size(r, 2) == size(theta, 2), ...
            ['%s: The number of input axes must match the number of ' ...
             'input angles.'], mfilename);
-    assert(all(size(f) == 1), ...
-           '%s: The scaling factor must be a scalar.');
+    assert(all(size(f) == 1) && f > 0, ...
+           '%s: The scaling factor must be a positive scalar.', mfilename);
 
     % If running in regular MATLAB, vectorize.
     if isempty(coder.target)

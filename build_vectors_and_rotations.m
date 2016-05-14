@@ -1,4 +1,9 @@
-function built = build_vectors_and_rotations(requested)
+function built = build_vectors_and_rotations(requested, out_path)
+
+    % Defaults
+    if nargin < 2
+        out_path = fullfile(fileparts(mfilename('fullpath')), 'mex');
+    end
 
     % Generic values
     n     = inf;
@@ -13,10 +18,10 @@ function built = build_vectors_and_rotations(requested)
     seq   = coder.typeof(uint8(1), [1 3]);
     f     = coder.typeof(1);
 
-    % Things to build:
-    build = {'aa2dcm',  {r, theta}; ...
-             'aa2mrp',  {r, theta, f}; ...
-             'aa2q',    {r, theta}; ...
+    % Things to build
+    build = {'aa2dcm',  {theta, r}; ...
+             'aa2mrp',  {theta, r, f}; ...
+             'aa2q',    {theta, r}; ...
              'dcm2aa',  {R}; ...
              'dcm2ea',  {R, seq}; ...
              'dcm2q',   {R}; ...
@@ -41,10 +46,11 @@ function built = build_vectors_and_rotations(requested)
              'qrot',    {q, r}; ...
              'rae2xyz', {r}; ...
              'xyz2rae', {r}};
+         
 ...             'qinterp', {t, qi, t}; ...
 
     % If only a subset is requested, find out which.
-    if nargin >= 1
+    if nargin >= 1 && ~isempty(requested)
         indices = false(length(build), 1);
         for k = 1:length(requested)
             indices = indices | strcmp(build(:,1), requested{k});
@@ -58,7 +64,7 @@ function built = build_vectors_and_rotations(requested)
         fprintf('Building %s...\n', build{k, 1});
         codegen('-config:mex', build{k, 1}, ...
                 '-args', build{k, 2}, ...
-                '-o', fullfile('mex', [build{k,1} '_mex']));
+                '-o', fullfile(out_path, [build{k,1} '_mex']));
     end
     toc();
 

@@ -12,6 +12,11 @@ function dcm = q2dcm(q)
 
 %#codegen
 
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+
     dcm = zeros(3, 3, size(q, 2), class(q));
 	dcm(1,1,:) = 1 - 2*(q(2,:).*q(2,:) + q(3,:).*q(3,:));
 	dcm(1,2,:) = 2.*(q(1,:).*q(2,:) + q(4,:).*q(3,:));

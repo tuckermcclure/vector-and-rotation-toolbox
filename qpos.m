@@ -16,6 +16,11 @@ function q = qpos(q)
 
 %#codegen
 
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+
     % If running in MATLAB, use vectorized operation.
     if isempty(coder.target)
         

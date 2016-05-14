@@ -15,8 +15,8 @@ function [v, v_mag] = normalize(v)
         
         v_mag = vmag(v);
         valid = v_mag > 0;
-        v(1, ~valid) = 1;
-        v(:, ~valid) = 0;
+        v(1,     ~valid) = 1;
+        v(2:end, ~valid) = 0;
         if any(valid)
             v(:, valid) = bsxfun(@times, v(:,valid), 1./v_mag(valid));
         end
@@ -31,8 +31,8 @@ function [v, v_mag] = normalize(v)
             v_mag = vmag(v);
             for k = 1:size(v, 2)
                 if v_mag(k) == 0
-                    v(1,k) = 1;
-                    v(:,k) = 0;
+                    v(1,k)     = 1;
+                    v(2:end,k) = 0;
                 else
                     v(:,k) = v(:,k) ./ v_mag(k);
                 end
@@ -45,7 +45,7 @@ function [v, v_mag] = normalize(v)
                 v_mag = vmag(v(:,k));
                 if v_mag == 0
                     v(1,k) = 1;
-                    v(:,k) = 0;
+                    v(2:end,k) = 0;
                 else
                     v(:,k) = v(:,k) ./ v_mag;
                 end

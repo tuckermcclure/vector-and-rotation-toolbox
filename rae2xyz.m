@@ -13,9 +13,12 @@ function xyz = rae2xyz(rae)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
+
+    % Check dimensions.
+    if size(rae, 1) ~= 3 && size(rae, 2) == 3, rae = rae.'; end;
+    assert(size(rae, 1) == 3, ...
+           '%s: The RAE inputs must be 3-by-n.', mfilename);
 
     % Transpose if necessary.
     if size(rae, 1) ~= 3 && size(rae, 2) == 3

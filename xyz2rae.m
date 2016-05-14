@@ -9,9 +9,12 @@ function rae = xyz2rae(xyz)
 
 % Copyright 2016 An Uncommon Lab
 
-%#ok<*EMTAG>
-%#eml
 %#codegen
+
+    % Check dimensions.
+    if size(xyz, 1) ~= 3 && size(xyz, 2) == 3, xyz = xyz.'; end;
+    assert(size(xyz, 1) == 3, ...
+           '%s: The input vectors must be 3-by-n.', mfilename);
 
     n = size(xyz, 2);
     rae      = zeros(3, n);

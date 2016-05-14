@@ -7,6 +7,17 @@ function ea = q2ea(q, seq)
 
     if nargin < 2, seq = [3 2 1]; end;
 
+    % Check dimensions.
+    if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;
+    assert(size(q, 1) == 4, ...
+           '%s: The quaternions must be 4-by-n.', mfilename);
+    assert(size(seq, 1) == 1 && size(seq, 2) == 3, ...
+           '%s: The Euler angle rotation sequence must be 1-by-3.', ...
+           mfilename);
+    assert(seq(1) ~= seq(2) && seq(2) ~= seq(3), ...
+           ['%s: The Euler angle sequence cannot repeat rotations ' ...
+            'about the same axis.'], mfilename);
+
     % Determine signs.
     i = seq(1);
     j = seq(2);
