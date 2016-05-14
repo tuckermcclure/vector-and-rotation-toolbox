@@ -3,7 +3,8 @@ clc;
 rebuild = true;
 
 source = 'tests';
-target = 'generated';
+target = 'mex';
+target = source;
 this   = fileparts(mfilename('fullpath'));
 if ~exist(target, 'dir')
     mkdir(target);

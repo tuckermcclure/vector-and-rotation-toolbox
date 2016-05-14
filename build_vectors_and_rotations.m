@@ -57,7 +57,8 @@ function built = build_vectors_and_rotations(requested)
     for k = 1:size(build, 1)
         fprintf('Building %s...\n', build{k, 1});
         codegen('-config:mex', build{k, 1}, ...
-                '-args', build{k, 2});
+                '-args', build{k, 2}, ...
+                '-o', fullfile('mex', [build{k,1} '_mex']));
     end
     toc();
 
