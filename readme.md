@@ -8,6 +8,16 @@ All rotation operations correspond to _frame_ rotations. Vector rotations are th
 It supports MATLAB R2011a and newer.
 
 
+
+TODO
+----
+Switch to angle-axis.
+Finish up vectorized/codegen code.
+Re-test.
+Update the headers.
+Put on aul? Convert to doc_?
+
+
 Axis-Angle Representations
 --------------------------
 
