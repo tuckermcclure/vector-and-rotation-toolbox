@@ -1,6 +1,6 @@
 function vm2 = vmag2(v)
 
-% VMAG2
+% VMAG2  Squares of magnitudes (2-norm) of each vector (column) of input
 %
 % Calculate square of the magnitude (2-norm) of each vector (column) of the
 % input.

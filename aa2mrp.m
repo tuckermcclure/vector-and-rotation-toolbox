@@ -1,6 +1,6 @@
 function p = aa2mrp(theta, r, f)
 
-% AA2MRP  angle-axis to modified Rodrigues parameters
+% AA2MRP  Angle-axis to modified Rodrigues parameters
 %
 % Convert an angle and axis of rotation to a modified Rodrigues parameters.
 % This is vectorized to take multiple angles (1-by-n) and corresponding 

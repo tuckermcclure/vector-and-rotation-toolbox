@@ -1,47 +1,67 @@
 % Vectors and Rotations Toolbox
 % Version 1.0 15-May-2016
+%
+% Axis-Angle Functions
 % 
-% Files
-%   aa2dcm                        - aa2dcm  angle-axis to direction cosine matrix
-%   aa2mrp                        - angle-axis to modified Rodrigues parameters
-%   aa2q                          - aa2q
-%   aashort                       - Check dimensions.
-%   build_vectors_and_rotations   - Defaults
-%   cross3                        - cross3
-%   crs3                          - crs3
-%   dcm2aa                        - [theta, r] = dcm2aa(R)
-%   dcm2ea                        - dcm2ea
-%   dcm2q                         - dcm2q
-%   ea2dcm                        - Copyright 2016 An Uncommon Lab
-%   ea2q                          - ea2q
-%   example_vectors_and_rotations - Let's suppose frame B is rotated from frame A by pi/4 about the y axis.
-%   mrp2aa                        - mrp2aa
-%   mrp2dcm                       - mrp2dcm
-%   mrp2q                         - mrp2q
-%   mrpalt                        - Copyright 2016 An Uncommon Lab
-%   mrpcomp                       - Copyright 2016 An Uncommon Lab
-%   mrpdiff                       - mrpdiff
-%   mrperr                        - mrperr
-%   normalize                     - normalize
-%   q2aa                          - q2aa
-%   q2dcm                         - q2dcm
-%   q2ea                          - Copyright 2016 An Uncommon Lab
-%   q2mrp                         - q2mrp
-%   qcomp                         - qcomp
-%   qdiff                         - Copyright 2016 An Uncommon Lab
-%   qdot                          - qdot
-%   qerr                          - Copyright 2016 An Uncommon Lab
-%   qinterp                       - qi = qinterp(t, q, ti);
-%   qinterpf                      - qinterpf
-%   qinv                          - qinv
-%   qpos                          - qpos
-%   qrot                          - Rotate a vector in frame A, v_A, to frame B given the quaternion
-%   rae2xyz                       - rae2xyz
-%   randunit                      - randunit
-%   Rx                            - Rx
-%   Ry                            - Ry
-%   Rz                            - Rz
-%   vecplot                       - function h = vecplot(v, varargin)
-%   vmag                          - vmag
-%   vmag2                         - vmag
-%   xyz2rae                       - xyz2rae
+%   aa2dcm                        - Angle-axis to direction cosine matrix
+%   aa2mrp                        - Angle-axis to modified Rodrigues parameters
+%   aa2q                          - Angle-axis to quaternion
+%   aashort                       - Shortest equivalent angle of rotation and corresponding axis
+% 
+% Direction Cosine Matrix Functions
+% 
+%   dcm2aa                        - Direction cosine matrix to angle-axis representation
+%   dcm2ea                        - Direction cosine matrix to Euler angles
+%   dcm2q                         - Direction cosine matrix to quaternion
+%   Rx                            - Direction cosine matrix of rotation about +x
+%   Ry                            - Direction cosine matrix of rotation about +y
+%   Rz                            - Direction cosine matrix of rotation about +z
+%
+% Euler Angle Functions
+% 
+%   ea2dcm                        - Euler angles to direction cosine matrix
+%   ea2q                          - Euler angles to rotation quaternion
+% 
+% Modified Rodrigues Parameter Functions
+% 
+%   mrp2aa                        - Modified Rodrigues parameters to angle-axis representation
+%   mrp2dcm                       - Modified Rodrigues parameters to direction cosine matrix
+%   mrp2q                         - Modified Rodrigues parameters to rotation quaternion
+%   mrpalt                        - Shadow set of given MRPs
+%   mrpcomp                       - Modified Rodrigues parameter composition
+%   mrpdiff                       - Difference between two sets of modified Rodrigues parameters
+%   mrperr                        - Angle between two sets of modified Rodrigues parameters
+%
+% Quaternion Functions
+% 
+%   q2aa                          - Rotation quaternion to angle-axis representation
+%   q2dcm                         - Rotation quaternion to direction cosine matrix
+%   q2ea                          - Rotation quaternion to Euler angles with the given sequence
+%   q2mrp                         - Rotation quaternion to modified Rodrigues parameters
+%   qcomp                         - Rotation quaternion composition
+%   qdiff                         - Difference of one rotation quaternion wrt another
+%   qdot                          - Quaternion derivative
+%   qerr                          - Angle of one rotation quaternion wrt another
+%   qinterp                       - Rotation quaternion interpolation, given independent variables
+%   qinterpf                      - Rotation quaternion interpolation, given interpolation fraction
+%   qinv                          - Rotation quaternion inverse
+%   qpos                          - Positive form of the rotation quaternion
+%   qrot                          - Vector rotation by rotation quaternion
+% 
+% Vector Functions
+% 
+%   cross3                        - Cross product of two (sets of) vectors
+%   crs3                          - Cross product matrix
+%   normalize                     - Safe normalization of the columns of the input matrix
+%   rae2xyz                       - Range-azimuth-elevation to Cartesian coordinates
+%   randunit                      - Creates random unit vectors
+%   vecplot                       - Plot a 3-by-n vector without breaking it up
+%   vmag                          - Magnitude (2-norm) of each vector (column) of the input
+%   vmag2                         - Squares of magnitudes (2-norm) of each vector (column) of input
+%   xyz2rae                       - Convert Cartesian points to range-azimuth-elevation
+%
+% Utilities
+% 
+%   build_vectors_and_rotations   - Builds MEX files for the various functions
+%   example_vectors_and_rotations - Examples for Vectors and Rotations Toolbox
+%

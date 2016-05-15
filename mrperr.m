@@ -1,6 +1,6 @@
 function theta = mrperr(p_CA, p_BA, f)
 
-% MRPERR
+% MRPERR  Angle between two sets of modified Rodrigues parameters
 %
 % Returns the angle of the first rotation wrt the second rotation. For
 % example, if p_CA were a true value and P_BA were some estimate of the

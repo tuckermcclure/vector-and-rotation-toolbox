@@ -1,11 +1,11 @@
 function q = aa2q(theta, r)
 
-% aa2q  angle-axis to quaternion
+% AA2Q  Angle-axis to quaternion
 %
 % Convert an angle and axis of rotation to a quaternion. This is vectorized
 % to take multiple angles (1-by-n) and corresponding axes (3-by-n).
 %
-%   q = aa2q(theta, r)
+%   q = AA2Q(theta, r)
 %
 % For a single angle and axis, this is simply the definition of the
 % rotation quaternion.

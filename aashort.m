@@ -1,12 +1,12 @@
 function [theta, r] = aashort(theta, r)
 
-% aashort  shortest equivalent angle of rotation and corresponding axis
+% AASHORT  Shortest equivalent angle of rotation and corresponding axis
 %
 % Calculate the shortest angle of rotation and corresponding axis for the
 % given rotations.
 % 
-%   [theta, r] = aashort(theta, r)
-%   theta      = aashort(theta, r)
+%   [theta, r] = AASHORT(theta, r)
+%   theta      = AASHORT(theta, r)
 %
 % When the axis isn't needed, this output can be skip, which saves some
 % computation time.

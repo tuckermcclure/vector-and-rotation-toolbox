@@ -1,6 +1,6 @@
 function R = Rz(theta)
 
-% RZ  Direction cosine matrix of rotation about +x
+% RZ  Direction cosine matrix of rotation about +z
 % 
 % Produces a direction cosine matrix (rotation matrix) corresponding to a
 % frame rotation about [0; 0; 1].

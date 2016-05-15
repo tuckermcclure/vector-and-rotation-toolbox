@@ -1,6 +1,6 @@
 function R = Ry(theta)
 
-% RY  Direction cosine matrix of rotation about +x
+% RY  Direction cosine matrix of rotation about +y
 % 
 % Produces a direction cosine matrix (rotation matrix) corresponding to a
 % frame rotation about [0; 1; 0].

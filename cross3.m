@@ -1,13 +1,13 @@
 function c = cross3(a, b)
 
-% cross3  cross product of two (sets of) vectors.
+% CROSS3  Cross product of two (sets of) vectors
 % 
 % Crosses each column of the first input with the corresponding column of
 % the second input, where each input is 3-by-n. This is a little better in 
 % generated C code than 'cross' and is specialized for 3-dimensional 
 % vectors.
 %
-%   c = cross3(a, b)
+%   c = CROSS3(a, b)
 %
 % Inputs:
 % 

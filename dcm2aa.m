@@ -1,12 +1,12 @@
 function [theta, r] = dcm2aa(R)
 
-% dcm2aa  direction cosine matrix to angle-axis representation
+% DCM2AA  Direction cosine matrix to angle-axis representation
 %
 % Convert a direction cosine matrix (or several) to the corresponding angle
 % of rotation and corresponding axes of rotation.
 % 
-%   [theta, r] = dcm2aa(R)
-%   theta      = dcm2aa(R)
+%   [theta, r] = DCM2AA(R)
+%   theta      = DCM2AA(R)
 %
 % When the axes are not needed, this output can be skipped, saving some
 % computation time.

@@ -1,12 +1,12 @@
 function p_CB = mrpdiff(p_CA, p_BA, f)
 
-% MRPDIFF
+% MRPDIFF  Difference between two sets of modified Rodrigues parameters
 %
 % Returns the "difference" in the two rotations -- the rotation of the
 % first input wrt the second.
 % 
-%   p_CB = mrpdiff(p_CA, p_BA)    % for traditional MRPs
-%   p_CB = mrpdiff(p_CA, p_BA, f) % for scaled MRPs
+%   p_CB = MRPDIFF(p_CA, p_BA)    % for traditional MRPs
+%   p_CB = MRPDIFF(p_CA, p_BA, f) % for scaled MRPs
 %
 % This is a simple convenience utility and corresponds to:
 %

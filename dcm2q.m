@@ -1,8 +1,10 @@
 function q = dcm2q(R)
 
-% dcm2q  direction cosine matrix to quaternion
+% DCM2Q  Direction cosine matrix to quaternion
 %
 % Convert direction cosine matrices to equivalent rotation quaternions.
+%
+%   q = DCM2Q(R)
 % 
 % Inputs:
 %

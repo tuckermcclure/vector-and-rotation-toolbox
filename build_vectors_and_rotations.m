@@ -1,6 +1,6 @@
 function built = build_vectors_and_rotations(requested, out_path)
 
-% build_vectors_and_rotations
+% BUILD_VECTORS_AND_ROTATIONS  Builds MEX files for the various functions
 %
 % Builds many functions in this toolbox as MEX using MATLAB Coder and 
 % places the resulting MEX in the 'mex' directory.

@@ -1,12 +1,12 @@
 function R = aa2dcm(theta, r)
 
-% aa2dcm  angle-axis to direction cosine matrix
+% AA2DCM  Angle-axis to direction cosine matrix
 %
 % Convert an angle and axis of rotation to a direction cosine matrix. This
 % is vectorized to take multiple angles (1-by-n) and corresponding
 % axes (3-by-n).
 %
-%   R = aa2dcm(theta, r);
+%   R = AA2DCM(theta, r);
 %
 % For a single angle and axis, this is equivalent to:
 %

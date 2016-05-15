@@ -1,11 +1,11 @@
 function m = crs3(v)
 
-% crs3  cross product matrix
+% CRS3  Cross product matrix
 %
 % Produces a skew-symmetric "cross product matrix" from a 3-dimensional
 % vector:
 % 
-%   m = crs3(v);
+%   m = CRS3(v);
 %
 % such that cross(a, b) == crs3(a) * b.
 %

@@ -1,6 +1,6 @@
 function rae = xyz2rae(v)
 
-% XYZ2RAE
+% XYZ2RAE  Convert Cartesian points to range-azimuth-elevation
 %
 % Convert range-azimuth-elevation to Cartesian points with the same
 % conventions as rae2xyz.
