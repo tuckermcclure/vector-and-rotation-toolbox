@@ -48,17 +48,55 @@ function ea = q2ea(q, seq)
         ea(2,:) = acos(  q(i,:).*q(i,:) - q(j,:).*q(j,:) ...
                        - q(k,:).*q(k,:) + q(4,:).*q(4,:));
                  
-        for z = 1:n
-            if ea(2,z) == 0
-                ea(1,z) = 2*atan2(q(i,z), q(4,z)); % Shuster misses a 2 here.
-            elseif ea(2,z) == pi
-                ea(1,z) = 2*atan2(alpha * q(k,z), q(j,z));
+        % MATLAB
+        if isempty(coder.target)
+            
+            i1       = ea(2,:) == 0;
+            i2       = ea(2,:) == pi;
+            i3       = ~i1 & ~i2;
+            ea(1,i1) = 2 * atan2(q(i,i1), q(4,i1));
+            if alpha > 0
+                ea(1,i2) = 2 * atan2(q(k,i2), q(j,i2));
+                a2       = atan2(q(k,i3), q(j,i3));
             else
-                a1 = atan2(q(i,z), q(4,z));
-                a2 = atan2(alpha * q(k,z), q(j,z));
-                ea(1,z) = a1 + a2;
-                ea(3,z) = a1 - a2;
+                ea(1,i2) = 2 * atan2(-q(k,i2), q(j,i2));
+                a2       = atan2(-q(k,i3), q(j,i3));
             end
+            a1       = atan2(q(i,i3), q(4,i3));
+            ea(1,i3) = a1 + a2;
+            ea(3,i3) = a1 - a2;
+            
+        % codegen
+        else
+                   
+            if alpha > 0
+                for z = 1:n
+                    if ea(2,z) == 0
+                        ea(1,z) = 2*atan2(q(i,z), q(4,z)); % Shuster misses a 2 here.
+                    elseif ea(2,z) == pi
+                        ea(1,z) = 2*atan2(q(k,z), q(j,z));
+                    else
+                        a1 = atan2(q(i,z), q(4,z));
+                        a2 = atan2(q(k,z), q(j,z));
+                        ea(1,z) = a1 + a2;
+                        ea(3,z) = a1 - a2;
+                    end
+                end
+            else
+                for z = 1:n
+                    if ea(2,z) == 0
+                        ea(1,z) = 2*atan2(q(i,z), q(4,z)); % Shuster misses a 2 here.
+                    elseif ea(2,z) == pi
+                        ea(1,z) = 2*atan2(-q(k,z), q(j,z));
+                    else
+                        a1 = atan2(q(i,z), q(4,z));
+                        a2 = atan2(-q(k,z), q(j,z));
+                        ea(1,z) = a1 + a2;
+                        ea(3,z) = a1 - a2;
+                    end
+                end
+            end
+            
         end
         
     % Otherwise, must be asymmetric.
@@ -66,40 +104,73 @@ function ea = q2ea(q, seq)
         
         k = seq(3);
             
-        ea(2,:) = asin(2 * (q(4,:) .* q(j,:) + alpha * q(k,:) .* q(i,:)));
+        if alpha > 0
+            ea(2,:) = asin(2 * (q(4,:) .* q(j,:) + q(k,:) .* q(i,:)));
+        else
+            ea(2,:) = asin(2 * (q(4,:) .* q(j,:) - q(k,:) .* q(i,:)));
+        end
                  
-        for z = 1:n
-            if ea(2,z) == pi/2
-                ea(1,:) = atan2(q(i,z) + alpha * q(k,z), ...
-                                q(4,z) + alpha * q(j,z));
-            elseif ea(2,z) == -pi/2
-                ea(1,:) = atan2(q(i,z) - alpha * q(k,z), ...
-                                q(4,z) - alpha * q(j,z));
+        % MATLAB
+        if isempty(coder.target)
+            
+            i1 = ea(2,:) ==  pi/2;
+            i2 = ea(2,:) == -pi/2;
+            i3 = ~i1 & ~i2;
+            if alpha > 0
+                ea(1,i1) = atan2(q(i,i1) + q(k,i1), ...
+                                 q(4,i1) + q(j,i1));
+                ea(1,i2) = atan2(q(i,i2) - q(k,i2), ...
+                                 q(4,i2) - q(j,i2));
+                a1 = atan2(q(i,i3) + q(k,i3), q(4,i3) + q(j,i3));
+                a2 = atan2(q(i,i3) - q(k,i3), q(4,i3) - q(j,i3));
             else
-                a1 = atan2(q(i,z) + q(k,z), q(4,z) + alpha * q(j,z));
-                a2 = atan2(q(i,z) - q(k,z), q(4,z) - alpha * q(j,z));
-                ea(1,z) = a1 + a2;
-                ea(3,z) = a1 - a2;
+                ea(1,i1) = atan2(q(i,i1) - q(k,i1), ...
+                                 q(4,i1) - q(j,i1));
+                ea(1,i2) = atan2(q(i,i2) + q(k,i2), ...
+                                 q(4,i2) + q(j,i2));
+                a1 = atan2(q(i,i3) + q(k,i3), q(4,i3) - q(j,i3));
+                a2 = atan2(q(i,i3) - q(k,i3), q(4,i3) + q(j,i3));
             end
+            ea(1,i3) = a1 + a2;
+            ea(3,i3) = a1 - a2;
+            
+        % codegen
+        else
+            
+            if alpha > 0
+                for z = 1:n
+                    if ea(2,z) == pi/2
+                        ea(1,:) = atan2(q(i,z) + q(k,z), ...
+                                        q(4,z) + q(j,z));
+                    elseif ea(2,z) == -pi/2
+                        ea(1,:) = atan2(q(i,z) - q(k,z), ...
+                                        q(4,z) - q(j,z));
+                    else
+                        a1 = atan2(q(i,z) + q(k,z), q(4,z) + q(j,z));
+                        a2 = atan2(q(i,z) - q(k,z), q(4,z) - q(j,z));
+                        ea(1,z) = a1 + a2;
+                        ea(3,z) = a1 - a2;
+                    end
+                end
+            else
+                for z = 1:n
+                    if ea(2,z) == pi/2
+                        ea(1,:) = atan2(q(i,z) - q(k,z), ...
+                                        q(4,z) - q(j,z));
+                    elseif ea(2,z) == -pi/2
+                        ea(1,:) = atan2(q(i,z) + q(k,z), ...
+                                        q(4,z) + q(j,z));
+                    else
+                        a1 = atan2(q(i,z) + q(k,z), q(4,z) - q(j,z));
+                        a2 = atan2(q(i,z) - q(k,z), q(4,z) + q(j,z));
+                        ea(1,z) = a1 + a2;
+                        ea(3,z) = a1 - a2;
+                    end
+                end
+            end
+            
         end
         
     end
-    
-%     % If it's the 3-2-1 sequence (standard aerospace heading, elevation,
-%     % bank or yaw, pitch, roll), then use compact form.
-%     if nargin < 2 || isempty(seq) || all(seq == [3 2 1])
-%        
-%         m11 = 2 * q(1,:).^2 + 2 * q(2,:).^2 - 1;
-%         m12 = 2 * q(2,:) .* q(3,:) + 2 * q(1,:) .* q(4,:);
-%         m13 = 2 * q(2,:) .* q(4,:) - 2 * q(1,:) .* q(3,:);
-%         m23 = 2 * q(3,:) .* q(4,:) + 2 * q(1,:) .* q(2,:);
-%         m33 = 2 * q(1,:).^2 + 2 * q(4,:).^2 - 1;
-%         ea(1,:) = atan2(m12, m11);
-%         ea(2,:) = asin(-m13);
-%         ea(3,:) = atan2(m23, m33);
-%         
-%     % Otherwise, use a general form.
-%     else
-%     end
     
 end % q2ea

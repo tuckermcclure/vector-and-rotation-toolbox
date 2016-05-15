@@ -47,53 +47,96 @@ function ea = dcm2ea(R, seq)
             k = 1;
         end
 
-%         % If running in regular MATLAB, vectorize.
-%         if isempty(coder.target)
-%             
-%             ea(2,:) = acos(R(i,i,:));
-%             
-%             % TODO: Vectorize:
-%             
-%         % Otherwise, write out the loop.
-%         else
+        % If running in regular MATLAB, vectorize.
+        if isempty(coder.target)
             
-            for c = 1:size(R, 3)
-                ea(2,c) = acos(R(i,i,c));
-                if ea(2,c) == 0 || ea(2,c) == pi
-                    ea(1,c) = atan2(alpha * R(j,k,c), R(j,j,c));
-                else
-                    ea(1,c) = atan2(R(i,j,c), -alpha * R(i,k,c));
-                    ea(3,c) = atan2(R(j,i,c),  alpha * R(k,i,c));
+            ea(2,:) = acos(R(i,i,:));
+            ind     = ea(2,:) == 0 | ea(2,:) == pi;
+            if alpha > 0
+                ea(1, ind) = atan2(R(j,k,ind),   R(j,j,ind));
+                ea(1,~ind) = atan2(R(i,j,~ind), -R(i,k,~ind));
+                ea(3,~ind) = atan2(R(j,i,~ind),  R(k,i,~ind));
+            else
+                ea(1, ind) = atan2(-R(j,k,ind),   R(j,j,ind));
+                ea(1,~ind) = atan2( R(i,j,~ind),  R(i,k,~ind));
+                ea(3,~ind) = atan2( R(j,i,~ind), -R(k,i,~ind));
+            end
+            
+        % Otherwise, write out the loop.
+        else
+            
+            if alpha > 0
+                for c = 1:size(R, 3)
+                    ea(2,c) = acos(R(i,i,c));
+                    if ea(2,c) == 0 || ea(2,c) == pi
+                        ea(1,c) = atan2(R(j,k,c), R(j,j,c));
+                    else
+                        ea(1,c) = atan2(R(i,j,c), -R(i,k,c));
+                        ea(3,c) = atan2(R(j,i,c),  R(k,i,c));
+                    end
+                end
+            else
+                for c = 1:size(R, 3)
+                    ea(2,c) = acos(R(i,i,c));
+                    if ea(2,c) == 0 || ea(2,c) == pi
+                        ea(1,c) = atan2(-R(j,k,c), R(j,j,c));
+                    else
+                        ea(1,c) = atan2(R(i,j,c), R(i,k,c));
+                        ea(3,c) = atan2(R(j,i,c), -R(k,i,c));
+                    end
                 end
             end
             
-%         end
+        end
         
     % Otherwise, must be asymmetric.
     else
         
         k = seq(3);
         
-%         % If running in regular MATLAB, vectorize.
-%         if isempty(coder.target)
-%             
-%             ea(2,:) = asin(R(k,i,:)/alpha);
-%             % TODO: Vectorize
-% 
-%         % Otherwise, write out the loop.
-%         else
+        % If running in regular MATLAB, vectorize.
+        if isempty(coder.target)
             
-            for c = 1:size(R, 3)
-                ea(2,c) = asin(alpha * R(k,i,c));
-                if ea(2,c) == pi/2
-                    ea(1,c) = atan2(alpha * R(j,k,c), R(j,j,c));
-                else
-                    ea(1,c) = atan2(-alpha * R(k,j,c), R(k,k,c));
-                    ea(3,c) = atan2(-alpha * R(j,i,c), R(i,i,c));
+            if alpha > 0
+                ea(2,:) = asin(R(k,i,:));
+                ind = ea(2,:) == pi/2;
+                ea(1, ind) = atan2( R(j,k,ind),  R(j,j,ind));
+                ea(1,~ind) = atan2(-R(k,j,~ind), R(k,k,~ind));
+                ea(3,~ind) = atan2(-R(j,i,~ind), R(i,i,~ind));
+            else
+                ea(2,:) = asin(-R(k,i,:));
+                ind = ea(2,:) == pi/2;
+                ea(1, ind) = atan2(-R(j,k,ind),  R(j,j,ind));
+                ea(1,~ind) = atan2( R(k,j,~ind), R(k,k,~ind));
+                ea(3,~ind) = atan2( R(j,i,~ind), R(i,i,~ind));
+            end
+
+        % Otherwise, write out the loop.
+        else
+            
+            if alpha > 0
+                for c = 1:size(R, 3)
+                    ea(2,c) = asin(R(k,i,c));
+                    if ea(2,c) == pi/2
+                        ea(1,c) = atan2(R(j,k,c), R(j,j,c));
+                    else
+                        ea(1,c) = atan2(-R(k,j,c), R(k,k,c));
+                        ea(3,c) = atan2(-R(j,i,c), R(i,i,c));
+                    end
+                end
+            else
+                for c = 1:size(R, 3)
+                    ea(2,c) = asin(-R(k,i,c));
+                    if ea(2,c) == pi/2
+                        ea(1,c) = atan2(-R(j,k,c), R(j,j,c));
+                    else
+                        ea(1,c) = atan2(R(k,j,c), R(k,k,c));
+                        ea(3,c) = atan2(R(j,i,c), R(i,i,c));
+                    end
                 end
             end
             
-%         end
+        end
         
     end
     

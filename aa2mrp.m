@@ -26,10 +26,7 @@ function p = aa2mrp(theta, r, f)
     % If running in regular MATLAB, vectorize.
     if isempty(coder.target)
 
-        p = bsxfun(@times, tan(0.25 * theta), r);
-        if f ~= 1
-            p = f * p;
-        end
+        p = bsxfun(@times, f * tan(0.25 * theta), r);
             
     % Otherwise, write the loops.
     else

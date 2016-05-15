@@ -25,7 +25,7 @@ function xyz = rae2xyz(rae)
         rae = rae.';
     end
 
-    xyz      = zeros(3, size(rae, 2));
+    xyz      = zeros(3, size(rae, 2), class(rae));
     xyz(3,:) = -rae(1,:) .* sin(rae(3,:)); % Start with z.
     xyz(1,:) =  rae(1,:) .* cos(rae(3,:)); % Create r * cos(el).
     xyz(2,:) =  xyz(1,:) .* sin(rae(2,:)); % Re-use r * cos(el).

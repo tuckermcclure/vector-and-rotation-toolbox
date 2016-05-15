@@ -47,11 +47,15 @@ function q = ea2q(ea, seq)
         end
         
         a = cos(0.5*ea(2,:));
-        q(i,:) =         a .* sin(0.5*(ea(1,:) + ea(3,:)));
-        q(4,:) =         a .* cos(0.5*(ea(1,:) + ea(3,:)));
+        q(i,:) = a .* sin(0.5*(ea(1,:) + ea(3,:)));
+        q(4,:) = a .* cos(0.5*(ea(1,:) + ea(3,:)));
         a = sin(0.5*ea(2,:));
-        q(j,:) =         a .* cos(0.5*(ea(1,:) - ea(3,:)));
-        q(k,:) = alpha * a .* sin(0.5*(ea(1,:) - ea(3,:)));
+        q(j,:) = a .* cos(0.5*(ea(1,:) - ea(3,:)));
+        if alpha > 0
+            q(k,:) =  a .* sin(0.5*(ea(1,:) - ea(3,:)));
+        else
+            q(k,:) = -a .* sin(0.5*(ea(1,:) - ea(3,:)));
+        end
     
     % Otherwise, must be asymmetric.
     else
@@ -66,10 +70,17 @@ function q = ea2q(ea, seq)
         stheta = sin(0.5*ea(2,:));
         spsi   = sin(0.5*ea(3,:));
         
-        q(i,:) = cpsi .* ctheta .* sphi + alpha * spsi .* stheta .* cphi;
-        q(j,:) = cpsi .* stheta .* cphi - alpha * spsi .* ctheta .* sphi;
-        q(k,:) = spsi .* ctheta .* cphi + alpha * cpsi .* stheta .* sphi;
-        q(4,:) = cpsi .* ctheta .* cphi - alpha * spsi .* stheta .* sphi;
+        if alpha > 0
+            q(i,:) = cpsi .* ctheta .* sphi + spsi .* stheta .* cphi;
+            q(j,:) = cpsi .* stheta .* cphi - spsi .* ctheta .* sphi;
+            q(k,:) = spsi .* ctheta .* cphi + cpsi .* stheta .* sphi;
+            q(4,:) = cpsi .* ctheta .* cphi - spsi .* stheta .* sphi;
+        else
+            q(i,:) = cpsi .* ctheta .* sphi - spsi .* stheta .* cphi;
+            q(j,:) = cpsi .* stheta .* cphi + spsi .* ctheta .* sphi;
+            q(k,:) = spsi .* ctheta .* cphi - cpsi .* stheta .* sphi;
+            q(4,:) = cpsi .* ctheta .* cphi + spsi .* stheta .* sphi;
+        end
         
     end
     

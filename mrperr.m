@@ -23,13 +23,19 @@ function theta = mrperr(p_CA, p_BA, f)
     assert(all(size(f) == 1) && f > 0, ...
            '%s: The scaling factor must be a positive scalar.', mfilename);
 
+	% MATLAB
     if isempty(coder.target)
+        
         theta = mrp2aa(mrpcomp(p_CA, -p_BA, f), f);
+        
+    % codegen
     else
+        
         theta = zeros(1, size(p_CA, 2), class(p_CA));
         for k = 1:size(p_CA, 2)
             theta(k) = mrp2aa(mrpcomp(p_CA(:,k), -p_BA(:,k), f), f);
         end
+        
     end
     
 end % mrperr

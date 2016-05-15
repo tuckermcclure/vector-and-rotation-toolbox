@@ -15,9 +15,7 @@ function q = qinv(q)
     assert(size(q, 1) == 4, ...
            '%s: The quaternions must be 4-by-n.', mfilename);
 
-    % This is pretty easy.
-    q(1,:) = -q(1,:);
-    q(2,:) = -q(2,:);
-    q(3,:) = -q(3,:);
+    % Invert the vector part.
+    q(1:3,:) = -q(1:3,:);
     
 end % qinv

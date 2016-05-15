@@ -24,13 +24,20 @@ function p_CB = mrpdiff(p_CA, p_BA, f)
            '%s: The scaling factor must be a positive scalar.', mfilename);
 
     n = size(p_CA, 2);
+    
+    % MATLAB
     if isempty(coder.target)
+        
         p_CB = mrpcomp(p_CA, -p_BA, f);
+        
+    % codegen
     else
+        
         p_CB = zeros(3, n, class(p_CA));
         for k = 1:n
             p_CB(:,k) = mrpcomp(p_CA(:,k), -p_BA(:,k), f);
         end
+        
     end
     
 end % mrpdiff
