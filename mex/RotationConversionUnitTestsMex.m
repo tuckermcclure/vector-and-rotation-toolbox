@@ -15,7 +15,7 @@ function test_RxRyRz(test)
                  
 	% And aa2dcm_mex?
     test.verifyEqual(Ry(pi/4) * [1; 0; 0], ...
-                     aa2dcm_mex([0; 1; 0], pi/4) * [1; 0; 0], ...
+                     aa2dcm_mex(pi/4, [0; 1; 0]) * [1; 0; 0], ...
                      'AbsTol', eps);
     
     % A bunch of cases
@@ -23,9 +23,9 @@ function test_RxRyRz(test)
     x = repmat([1; 0; 0], 1, length(theta));
     y = repmat([0; 1; 0], 1, length(theta));
     z = repmat([0; 0; 1], 1, length(theta));
-    test.verifyEqual(Rx(theta), aa2dcm_mex(x, theta), 'AbsTol', eps);
-    test.verifyEqual(Ry(theta), aa2dcm_mex(y, theta), 'AbsTol', eps);
-    test.verifyEqual(Rz(theta), aa2dcm_mex(z, theta), 'AbsTol', eps);
+    test.verifyEqual(Rx(theta), aa2dcm_mex(theta, x), 'AbsTol', eps);
+    test.verifyEqual(Ry(theta), aa2dcm_mex(theta, y), 'AbsTol', eps);
+    test.verifyEqual(Rz(theta), aa2dcm_mex(theta, z), 'AbsTol', eps);
 
 end % Rx, Ry, and Rz
 
@@ -39,8 +39,8 @@ function test_aa2dcm(test)
     [r, theta] = get_aa_combos();
     
     % Convert directly and through quaterion.
-    R   = aa2dcm_mex(r, theta);
-    R_0 = q2dcm_mex(aa2q_mex(r, theta));
+    R   = aa2dcm_mex(theta, r);
+    R_0 = q2dcm_mex(aa2q_mex(theta, r));
     
     % Compare directly.
     test.verifyEqual(R, R_0, 'AbsTol', 1e-12);
@@ -64,8 +64,8 @@ function test_aa2mrp(test)
     % MRP (f = 1)
     if ~test_mex_only(mfilename())
         
-        p       = aa2mrp_mex(r, theta);
-        p_0     = q2mrp_mex(aa2q_mex(r, theta));
+        p       = aa2mrp_mex(theta, r);
+        p_0     = q2mrp_mex(aa2q_mex(theta, r));
         p_0_alt = mrpalt_mex(p_0);
     
         % The result is right if it matches either form of the MRPs.
@@ -76,8 +76,8 @@ function test_aa2mrp(test)
     
     % MRP
     f       = 4;
-    p       = aa2mrp_mex(r, theta, f);
-    p_0     = q2mrp_mex(aa2q_mex(r, theta), f);
+    p       = aa2mrp_mex(theta, r, f);
+    p_0     = q2mrp_mex(aa2q_mex(theta, r), f);
     p_0_alt = mrpalt_mex(p_0, f);
     
     % The result is right if it matches either form of the MRPs.

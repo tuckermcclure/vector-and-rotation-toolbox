@@ -32,12 +32,12 @@ end
 if stop_after_tests
     return;
 end
-return;
+
 % Build everything to MEX.
 if rebuild
     built = build_vectors_and_rotations([], target);
 else
-    files = dir(['*_mex.' mexext()]);
+    files = dir(['*_mex.' mexext()]); %#ok<UNRCH>
     files = {files.name}.';
     built = regexp(files, ['\w+(?=_mex\.' mexext '$)'], 'match');
     built = cellfun(@(c) c{1}, built, 'UniformOutput', false);

@@ -103,14 +103,14 @@ function test_qinterp(test)
     n = length(t);
     q = zeros(4, n);
     for k = 1:n
-        q(:,k) = aa2q_mex(r, w*t(k));
+        q(:,k) = aa2q_mex(w*t(k), r);
     end
     
     % Form the truth.
     ti   = 0:0.5:10;
     qi_0 = zeros(4, length(ti));
     for k = 1:length(ti)
-        qi_0(:,k) = aa2q_mex(r, w*ti(k));
+        qi_0(:,k) = aa2q_mex(w*ti(k), r);
     end
     
     qi = qinterp(t, q, ti);
@@ -132,7 +132,7 @@ function test_qdot(test)
     
     q_0 = zeros(4, n);
     for k = 1:n
-        q_0(:,k) = aa2q_mex(r, w*t(k));
+        q_0(:,k) = aa2q_mex(w*t(k), r);
     end
     
     q = [q_0(:,1), zeros(4, n-1)];
