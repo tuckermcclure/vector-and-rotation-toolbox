@@ -1,9 +1,12 @@
 function v_hat = randunit(m, n)
 
-% randunit
+% RANDUNIT  Creates random unit vectors
 %
-% Creates random unit vectors (m-by-n).
+% Creates random unit vectors (m-by-n). This is a very simple convenience 
+% function.
 %
+%   v_hat = RANDUNIT(m, n)
+% 
 % Inputs:
 %
 % m  Dimension of each vector (default is 3)
@@ -11,7 +14,7 @@ function v_hat = randunit(m, n)
 %
 % Outputs:
 %
-% v  Matrix whose columns are the n random unit vectors (m-by-n)
+% v_hat  Matrix whose columns are the n random unit vectors (m-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

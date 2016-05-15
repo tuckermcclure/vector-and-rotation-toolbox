@@ -1,31 +1,49 @@
 function h = vecplot(varargin)
 
-% function h = vecplot(v, varargin)
-% 
-%    h = vecplot(v);    % New plot3 with vector data
-%    h = vecplot(f, v); % New plot using f
-%    h = vecplot(h, v); % Updates plot h
-% 
-% This function provides a simple mask for plotting 3D vectors. It accepts 
-% 3-by-n data and plots the n points in 3D space. By default, it uses
-% plot3, but can also use scatter3 or bar3 on request (see examples). It 
-% returns a handle to the plot. Any additional arguments are passed to the 
-% plotting function directly.
+% VECPLOT  Plot a 3-by-n vector without breaking it up
 %
-% % Example:
+% This is a convenience function that allows one to plot a 3-by-n set of
+% vectors without manually breaking it up into x, y, and z components
+% (which is tedious when one works with vectors frequently).
+% 
+%    h = vecplot(v, ...);    % New plot3 with vector data
+%    h = vecplot(f, v, ...); % New plot using plotting function f
+%    h = vecplot(h, v, ...); % Updates plot h
 %
-% % Let's make a red, dotted plot.
+% Any additional arguments are passed along to the plot function.
+% 
+% This replaces all of the following forms:
+%
+%    h = plot3(v(1,:), v(2,:), v(3,:), ...);
+%    set(h, 'XData', v(1,:), 'YData', v(2,:), 'ZData', v(3,:), ...);
+%
+% Inputs:
+%
+% v  Set of vectors (3-by-n)
+% f  Plotting function to use (default is @plot3)
+% h  Handle(s) of plot(s) to update (1-by-m)
+%
+% Outputs:
+%
+% h  Handle(s) new/updated plot(s) (1-by-m)
+% 
+% Example:
+%
+% Let's make a red, dotted plot.
+% 
 % xyz = rand(3, 10);
 % h = vecplot(xyz, 'r:');
 %
-% % Let's update the plot.
+% Let's update the plot.
+% 
 % xyz2 = [xyz rand(3, 1)];
 % vecplot(h, xyz2);
 %
-% % Example: Specifying Plot Type
+% Example: Specifying Plot Type
 %
-% % Let's create a 3D scatter plot from vector data using the data from
-% % above.
+% Let's create a 3D scatter plot from vector data using the data from
+% above.
+% 
 % h = vecplot(@scatter3, xyz);
 % 
 
@@ -64,7 +82,12 @@ function h = vecplot(varargin)
     % Otherwise, updating existing plot...
     else
         
-        set(h, 'XData', v(1,:), 'YData', v(2,:), 'ZData', v(3,:), args{:});
+        for k = 1:length(h)
+            set(h(k), 'XData', v(1,:), ...
+                      'YData', v(2,:), ...
+                      'ZData', v(3,:), ...
+                      args{:});
+        end
         
     end
     

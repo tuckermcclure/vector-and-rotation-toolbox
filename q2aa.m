@@ -1,45 +1,28 @@
 function [theta, r] = q2aa(q)
 
-% q2aa
+% Q2AA  Rotation quaternion to angle-axis representation
 %
-% Quaternion to axis-angle, using q(1,:) as the scalars and q(2:4,:)
-% as the vectors. Note that when the angle is zero, the axis is undefined.
-% This function will return [1; 0; 0] for all rotations smaller than tol so
-% that the output axis always has unit norm. It also protects against 
-% q(1,:) being slightly less than -1 or more than 1, which can happen in 
-% numerical integration of the quaternion. It's vectorized to accept a 
-% matrix of quaternions with dimensions 4-by-n. This function does *not*
-% ensure the unit norm of the quaternion. Use the normalize function for
-% that first if required.
+% Converts the rotation quaternion into angle-axis representation. When the
+% angle is zero, the arbitrary axis will be [1; 0; 0].
 %
-% Example:
+%   theta      = Q2AA(q)
+%   [theta, r] = Q2AA(q)
+%
+% When the axes aren't necessary, that output can be skipped to save some
+% computation time.
 % 
-% >> q = [0 0 1 0].'; % Rotation of pi about y
-% >> [theta, a] = q2aa(q)
-% theta =
-%     3.1416
-% a =
-%      0
-%      1
-%      0
-%
 % Inputs:
 %
-% q      Quaternion (scalar part last)
-% tol    Divide-by-zero tolerance; when the scalar part is less than this 
-%        number (no rotation), the axis will be simply [1; 0; 0] (optional)
+% q      Rotation quaternion(s) (4-by-n)
 % 
 % Outputs:
 %
-% theta  Angle of rotation [rad]
+% theta  Angle of rotation (radians, 1-by-n)
 % r      Axis of rotation
 
 % Copyright 2016 An Uncommon Lab
 
 %#codegen
-
-%     % Set a default tolerance.
-%     if nargin < 2, tol = eps; end;
 
     % Check dimensions.
     if size(q, 1) ~= 4 && size(q, 2) == 4, q = q.'; end;

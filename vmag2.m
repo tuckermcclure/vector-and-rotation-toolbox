@@ -1,10 +1,21 @@
 function vm2 = vmag2(v)
 
-% vmag
+% VMAG2
 %
-% Calculate the 2-norm magnitude(s) of the input vector(s).
+% Calculate square of the magnitude (2-norm) of each vector (column) of the
+% input.
 %
-% See also: normalize
+%    vm2 = VMAG2(v)
+%
+% Inputs:
+%
+% v  Set of vector(s) (3-by-n)
+%
+% Outputs:
+%
+% vm2  Squares of magnitudes (2-norm) (1-by-n)
+%
+% See also: vmag, normalize
 
 % Copyright 2016 An Uncommon Lab
 

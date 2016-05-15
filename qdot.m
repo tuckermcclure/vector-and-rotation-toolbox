@@ -1,21 +1,29 @@
 function qd = qdot(q, w, k, dt)
 
-% qdot
+% QDOT  Quaternion derivative
 %
-% Quaternion derivative which maintains the unit norm of the quaternion
-% during simulation using the "trick" from [Zipfel 372].
+% Calcualtes the quaternion derivative given the rotation rate. This 
+% function maintains the unit norm of the quaternion against numerical
+% roundoff errors over time.
 %
-%    qd = qdot(q, w)
-%    qd = qdot(q, w, k)
-%    qd = qdot(q, w, [], dt)
+%    qd = QDOT(q, w)
+%    qd = QDOT(q, w, k)
+%    qd = QDOT(q, w, [], dt)
 %
 % To maintain the unit norm of the quaternion, k*dt should be less than 1,
 % where k is the orthonormality correction factor. The default value is 
-% 0.5.
+% 0.5. If dt is provide and k is not provided, then k = 0.5/dt is used.
+% 
+% Inputs:
 %
-% This function takes the convention that the first element of the
-% quaternion is the scalar part and the subsequent three are the vector
-% parts.
+% q   Rotation quaternion(s) (4-by-n)
+% w   Rotation rate vector(s) (rad/s, 3-by-n)
+% k   Optional orthonormality correction factor (default is 0.5)
+% dt  Optional time step (s), used to determine k (default is 1)
+% 
+% Output:
+%
+% qd  Quaternion derivative(s) (4-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

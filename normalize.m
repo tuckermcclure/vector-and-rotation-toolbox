@@ -1,10 +1,22 @@
 function [v, v_mag] = normalize(v)
 
-% normalize
+% NORMALIZE  Safe normalization of the columns of the input matrix
 % 
-% Safely normalize the input vectors. When the magnitude is exactly 0, the
-% output vector will be [1; 0; 0]. This function can also output the
-% magnitude of each vector.
+% Safely normalize the columns of the input vectors. When the magnitude is 
+% exactly 0, the output vector will be [1; 0; 0]. This function can also 
+% output the magnitude of each vector, as a useful byproduct.
+%
+%   [v, v_mag] = NORMALIZE(v)
+%
+% Inputs:
+%
+% v  Vector(s) (3-by-n)
+%
+%
+% Outputs:
+% 
+% v      Unit vector(s) (3-by-n)
+% v_mag  Magnitudes (2-norm) of each of the vectors
 
 % Copyright 2016 An Uncommon Lab
 

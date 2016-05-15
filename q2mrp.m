@@ -1,10 +1,22 @@
 function p = q2mrp(q, f)
 
-% q2mrp
+% Q2MRP  Rotation quaternion to modified Rodrigues parameters
+%
+% Converts the rotation quaternion into modified Rodrigues parameters. For
+% stability, the "near" MRPs, corresponding to a positive scalar part in 
+% the quaternion, will always be used.
+%
+%   p = Q2MRP(q)
+%   p = Q2MRP(q, f)
+%
+% Inputs:
+%
+% q    Rotation quaternion(s) (4-by-n)
+% f    MRP scaling factor (default 1)
 % 
-% Convert quaternion to modified Rodriguez parameters (MRPs), with an 
-% optional MRP scaling factor. This function is vectorized to accept 4-by-n
-% quaternions, returning 3-by-n MRPs.
+% Outputs:
+%
+% p    Modified Rodrigues parameters (3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

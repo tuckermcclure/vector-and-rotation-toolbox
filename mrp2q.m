@@ -1,6 +1,21 @@
 function q = mrp2q(p, f)
 
-% mrp2q
+% MRP2Q  Modified Rodrigues parameters to rotation quaternion
+% 
+% Convert modified Rodrigues parameters to corresponding rotation
+% quaternion.
+%
+%   q = MRP2Q(p)    % for traditional MRPs
+%   q = MRP2Q(p, f) % for scaled MRPs
+%
+% Inputs:
+%
+% p  Modified Rodrigues parameters (3-by-n)
+% f  Optional scaling parameter (default 1)
+%
+% Outputs:
+% 
+% q  Rotation quaternion(s) (4-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

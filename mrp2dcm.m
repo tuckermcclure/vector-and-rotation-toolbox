@@ -1,6 +1,21 @@
 function R = mrp2dcm(p, f)
 
-% mrp2dcm
+% MRP2DCM  Modified Rodrigues parameters to direction cosine matrix
+% 
+% Convert modified Rodrigues parameters to corresponding direction cosine
+% matrix.
+%
+%   R = MRP2DCM(p)    % for traditional MRPs
+%   R = MRP2DCM(p, f) % for scaled MRPs
+%
+% Inputs:
+%
+% p  Modified Rodrigues parameters (3-by-n)
+% f  Optional scaling parameter (default 1)
+%
+% Outputs:
+% 
+% R  Direction cosine matrix or matrices (3-by-3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

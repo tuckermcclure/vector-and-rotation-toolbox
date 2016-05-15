@@ -1,6 +1,22 @@
 function [theta, r] = mrp2aa(p, f)
 
-% mrp2aa
+% MRP2AA  Modified Rodrigues parameters to angle-axis representation
+%
+% Convert modified Rodrigues parameters to corresponding angle of rotation
+% and right-handed rotation axis.
+%
+%   [theta, r] = MRP2AA(p)    % for traditional MRPs
+%   [theta, r] = MRP2AA(p, f) % for scaled MRPs
+%
+% Inputs:
+%
+% p  Modified Rodrigues parameters (3-by-n)
+% f  Optional scaling parameter (default 1)
+%
+% Outputs:
+% 
+% theta  Rotation angle (radians, 1-by-n)
+% r      Unit rotation axis (3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

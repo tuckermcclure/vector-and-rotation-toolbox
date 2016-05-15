@@ -1,5 +1,28 @@
 function built = build_vectors_and_rotations(requested, out_path)
 
+% build_vectors_and_rotations
+%
+% Builds many functions in this toolbox as MEX using MATLAB Coder and 
+% places the resulting MEX in the 'mex' directory.
+%
+% Inputs:
+%
+% requested  Names of functions to build (defaults to all functions)
+% out_path   Directory in which to put the built MEX files
+%
+% Outputs:
+%
+% built      A list of the functions that were successfully built
+
+% Copyright 2016 An Uncommon Lab
+
+    % Make sure MATLAB Coder is installed.
+    v = ver();
+    if ~any(strcmp({v.Name}, 'MATLAB Coder'))
+        error(['MATLAB Coder is necessary to build MEX files from ' ...
+               'MATLAB source.']);
+    end
+
     % Defaults
     if nargin < 2
         out_path = fullfile(fileparts(mfilename('fullpath')), 'mex');

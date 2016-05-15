@@ -1,10 +1,26 @@
 function qi = qinterpf(qa, qb, f)
 
-% qinterpf
+% QINTERPF  Rotation quaternion interpolation, given interpolation fraction
+%
+% Interpolates between rotation quaternions given the fractional "amount" 
+% from the first to the second.
 % 
-% Interpolate from qa to qb according to fraction f.
-% 
-%   qi = qinterpf(qa, qb, f);
+%   qi = QINTERPF(qa, qb, f);
+%
+% This type of interpolation preserves the rotational meaning of the
+% quaternion. That is, interpolating 10% of the way from qa to qb
+% corresponding to rotating 10% of the angle through the rotation of qa wrt
+% qb. This is analogous to linear interpolation but in a rotational sense.
+%
+% Inputs:
+%
+% qa  The "from" set of quaternions (4-by-n)
+% qb  The "to" set of quaternions (4-by-n)
+% f   Fraction of distance to move from qa to qb (1-by-1 or 1-by-n)
+%
+% Outputs:
+%
+% qi  Interpolated quaternions (4-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

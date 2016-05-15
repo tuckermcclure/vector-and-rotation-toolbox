@@ -1,31 +1,45 @@
-function c = qcomp(a, b)
+function q_CA = qcomp(q_CB, q_BA)
 
-% qcomp
+% QCOMP  Rotation quaternion composition
 %
 % Composition (multiplication) of two quaternions. Note that this function
 % preserves the order of multiplied direction cosine matrices, and so the
-% order is backwards from Hamilton's quaternion multiplication.
+% order is backwards from Hamilton's quaternion multiplication. That is,
+% if the first input represents frame C wrt frame B, and the second
+% represents frame B wrt frame A, then the output will represent the
+% rotation of frame C wrt frame A.
 %
-% This function takes the convention that the first element of the
-% quaternion is the scalar part and the subsequent three are the vector
-% parts.
+%   q_CA = QCOMP(q_CB, q_BA);
 %
-% q_CA = qcomp(q_CB, q_BA);
+% This preserves the order of the DCMs:
+%
+%   R_CB = q2dcm(q_CB);
+%   R_BA = q2dcm(q_BA);
+%   R_CA = R_CB * R_BA;
+%
+% Inputs:
+%
+% q_CB  Rotation quaternion of frame C wrt frame B (4-by-n)
+% q_BA  Rotation quaternion of frame B wrt frame A (4-by-n)
+% 
+% Outputs:
+% 
+% q_CA  Rotation quaternion of frame C wrt frame A (4-by-n)
 
 % Copyright 2016 An Uncommon Lab
 
 %#codegen
 
     % Check dimensions.
-    if size(a, 1) ~= 4 && size(a, 2) == 4, a = a.'; end;
-    if size(b, 1) ~= 4 && size(b, 2) == 4, b = b.'; end;
-    assert(size(a, 1) == 4 && size(b, 1) == 4, ...
+    if size(q_CB, 1) ~= 4 && size(q_CB, 2) == 4, q_CB = q_CB.'; end;
+    if size(q_BA, 1) ~= 4 && size(q_BA, 2) == 4, q_BA = q_BA.'; end;
+    assert(size(q_CB, 1) == 4 && size(q_BA, 1) == 4, ...
            '%s: The quaternions must be 4-by-n.', mfilename);
 
     % c = ([-crs3(a(1:3)), a(1:3); -a(1:3).', 0] + a(4) * eye(4)) * b;
-    c = [ a(4,:).*b(1,:) + a(3,:).*b(2,:) - a(2,:).*b(3,:) + a(1,:).*b(4,:); ...
-         -a(3,:).*b(1,:) + a(4,:).*b(2,:) + a(1,:).*b(3,:) + a(2,:).*b(4,:); ...
-          a(2,:).*b(1,:) - a(1,:).*b(2,:) + a(4,:).*b(3,:) + a(3,:).*b(4,:); ...
-         -a(1,:).*b(1,:) - a(2,:).*b(2,:) - a(3,:).*b(3,:) + a(4,:).*b(4,:)];
+    q_CA = [ q_CB(4,:).*q_BA(1,:) + q_CB(3,:).*q_BA(2,:) - q_CB(2,:).*q_BA(3,:) + q_CB(1,:).*q_BA(4,:); ...
+         -q_CB(3,:).*q_BA(1,:) + q_CB(4,:).*q_BA(2,:) + q_CB(1,:).*q_BA(3,:) + q_CB(2,:).*q_BA(4,:); ...
+          q_CB(2,:).*q_BA(1,:) - q_CB(1,:).*q_BA(2,:) + q_CB(4,:).*q_BA(3,:) + q_CB(3,:).*q_BA(4,:); ...
+         -q_CB(1,:).*q_BA(1,:) - q_CB(2,:).*q_BA(2,:) - q_CB(3,:).*q_BA(3,:) + q_CB(4,:).*q_BA(4,:)];
      
 end % qcomp

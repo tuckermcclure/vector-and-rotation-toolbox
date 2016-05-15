@@ -1,25 +1,24 @@
 function m = crs3(v)
 
-% crs3
+% crs3  cross product matrix
 %
-% Produces a skew-symmetric "cross product" matrix from 3D vector such 
-% that:
-%
-%    cross(a, b) == skew(a) * b.
-%
-% When v is 3-by-n, m will be 3-by-3-by-n.
-% 
-% Interface:
+% Produces a skew-symmetric "cross product matrix" from a 3-dimensional
+% vector:
 % 
 %   m = crs3(v);
 %
+% such that cross(a, b) == crs3(a) * b.
+%
+% When the input vectors are 3-by-n, the cross product matrix for each
+% column will be computed, and the output will be 3-by-3-by-n.
+% 
 % Inputs:
 %
-% v   A 3D vector or vectors (3-by-n)
+% v   Vector(s) (3-by-n)
 %
 % Outputs:
 %
-% m   Cross product matrix or matrices (3-by-3-by-n)
+% m   Cross product matrix (matrices) (3-by-3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

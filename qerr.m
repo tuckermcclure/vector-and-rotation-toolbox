@@ -1,5 +1,25 @@
 function theta = qerr(q_CA, q_BA)
 
+% QERR  Angle of one rotation quaternion wrt another
+%
+% Calculates the rotation angle of the first quaternion wrt the second 
+% quaternion.
+% 
+%   theta = QERR(q_CA, q_BA)
+%
+% This is equivalent to:
+%
+%   q_CB = q2aa(qcomp(q_CA, qinv(q_BA)));
+%
+% Inputs:
+%
+% q_CA  Rotation quaternion representing frame C wrt frame A (4-by-n)
+% q_BA  Rotation quaternion representing frame B wrt frame A (4-by-n)
+%
+% Outputs:
+%
+% theta  Rotation angle of frame C wrt frame B (1-by-n)
+
 % Copyright 2016 An Uncommon Lab
 
 %#codegen

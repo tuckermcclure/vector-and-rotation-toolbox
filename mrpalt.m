@@ -1,5 +1,21 @@
 function p = mrpalt(p, f)
 
+% MRPALT  Shadow set of given MRPs
+%
+% Convert a set of modified Rodrigues parameters to its shadow set.
+%
+%   p_shadow = MRPALT(p)    % for traditional MRPs
+%   p_shadow = MRPALT(p, f) % for scaled MRPs
+%
+% Inputs:
+%
+% p  Modified Rodrigues parameters (3-by-n)
+% f  Optional scaling parameter (default 1)
+%
+% Outputs:
+%
+% s  Shadow set of the input modified Rodrigues parameters (3-by-n)
+
 % Copyright 2016 An Uncommon Lab
 
 %#codegen

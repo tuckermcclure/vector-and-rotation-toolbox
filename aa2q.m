@@ -1,21 +1,33 @@
 function q = aa2q(theta, r)
 
-% aa2q
+% aa2q  angle-axis to quaternion
 %
-% Convert axis-angle format to quaternion.
+% Convert an angle and axis of rotation to a quaternion. This is vectorized
+% to take multiple angles (1-by-n) and corresponding axes (3-by-n).
 %
-% If theta represents the rotation of frame A wrt frame B about an axis a
-% (specified in either A or B -- it doesn't matter which), then this
-% function returns a unit quaternion representing the same rotation. E.g.,
-% if frame A is rotated 45 degrees about [1; 0; 0] from frame B, then the
-% axis and angles are:
+%   q = aa2q(theta, r)
 %
-% theta_AB = pi/4;
-% a_A      = [1; 0; 0];
-% q_AB     = aa2q(a_A, theta_AB);
+% For a single angle and axis, this is simply the definition of the
+% rotation quaternion.
 %
-% The function is vectorized to accept the axes as 3-by-n matrices with
-% corresponding 1-by-n angles.
+%   q = [sin(theta/2) * r; cos(theta/2)];
+%
+% Inputs:
+%
+% r      Unit axis (or axes) of right-handed rotation (3-by-n)
+% theta  Angle(s) of rotation of frame B wrt A about r (1-by-n)
+%
+% Outputs:
+%
+% q      Rotation quaternion representing frame B wrt frame A (4-by-n)
+%
+% Example:
+%
+% theta_BA = pi/4;                % Frame B is rotated 45 deg from frame A
+% r_A      = [0; 0; 1];           % about the z axis.
+% q_BA     = aa2q(theta_BA, r_A); % Create the quaternion.
+% v_A      = [1; 0; 0];           % Make an arbitary vector in frame A.
+% v_B      = qrot(q_BA, v_A)      % What is the vector in frame B?
 
 % Copyright 2016 An Uncommon Lab
 

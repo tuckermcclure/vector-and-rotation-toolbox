@@ -1,13 +1,17 @@
 function q = dcm2q(R)
 
-% dcm2q
+% dcm2q  direction cosine matrix to quaternion
 %
-% Convert a direction cosine matrix to a unit quaternion representing the
-% same rotation.
+% Convert direction cosine matrices to equivalent rotation quaternions.
+% 
+% Inputs:
 %
-% Shuster, Malcolm D. "A Survey of Attitude Representations." _The Journal
-% of Astronautical Sciences. Vol. 41. No. 4. October-December 1993.
-% 439-517. http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf
+% R    Direction cosine matrices (3-by-3-by-n)
+% seq  Sequence for Euler angles, specified as, e.g., [3 1 2] or 'zxy'
+% 
+% Outputs:
+%
+% q    Rotation quaternions (4-by-1)
 
 % Copyright 2016 An Uncommon Lab
 
@@ -24,6 +28,8 @@ function q = dcm2q(R)
     % MATLAB
     if isempty(coder.target)
         
+        % Split the conversion so as to divide by the largest possible 
+        % number.
         m1 = reshape( R(1,1,:) + R(2,2,:) + R(3,3,:) >= 0, 1, n);
         m2 = reshape( R(1,1,:) - R(2,2,:) - R(3,3,:) >= 0, 1, n);
         m3 = reshape(-R(1,1,:) + R(2,2,:) - R(3,3,:) >= 0, 1, n);

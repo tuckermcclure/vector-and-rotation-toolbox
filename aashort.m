@@ -1,5 +1,32 @@
 function [theta, r] = aashort(theta, r)
 
+% aashort  shortest equivalent angle of rotation and corresponding axis
+%
+% Calculate the shortest angle of rotation and corresponding axis for the
+% given rotations.
+% 
+%   [theta, r] = aashort(theta, r)
+%   theta      = aashort(theta, r)
+%
+% When the axis isn't needed, this output can be skip, which saves some
+% computation time.
+% 
+% Inputs:
+%
+% r      Unit axis (or axes) of right-handed rotation (3-by-n)
+% theta  Angle(s) of rotation of frame B wrt A about r (1-by-n)
+%
+% Outputs:
+%
+% r      Unit axis (or axes) of right-handed rotation (3-by-n)
+% theta  Smallest angle(s) of rotation of frame B wrt A about r (1-by-n)
+%
+% See also: qpos, mrpalt
+
+% Copyright 2016 An Uncommon Lab
+
+%#codegen
+
     % Check dimensions.
     assert(size(theta, 1) == 1, ...
            '%s: The angles must be 1-by-n.', mfilename);

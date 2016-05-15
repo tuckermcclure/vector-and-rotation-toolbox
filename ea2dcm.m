@@ -1,5 +1,22 @@
 function R = ea2dcm(ea, seq)
 
+% ea2dcm  Euler angles to direction cosine matrix
+%
+% Convert Euler angles with the given sequence to the corresponding 
+% direction cosine matrix (or matrices).
+% 
+%   R = ea2dcm(ea, seq)
+%   R = ea2dcm(ea) % Defaults to [3 2 1] sequence
+%
+% Inputs:
+%
+% ea   Euler angles (radians, 3-by-n)
+% seq  Sequence for Euler angles, specified as, e.g., [3 1 2] or 'zxy'
+% 
+% Outputs:
+%
+% R    Direction cosine matrices (3-by-3-by-n)
+
 % Copyright 2016 An Uncommon Lab
 
 %#codegen

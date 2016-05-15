@@ -1,5 +1,25 @@
 function q_CB = qdiff(q_CA, q_BA)
 
+% QDIFF  Difference of one rotation quaternion wrt another
+%
+% Calculates the rotation of the first quaternion wrt the second 
+% quaternion.
+% 
+%   q_CB = qdiff(q_CA, q_BA)
+%
+% This is equivalent to:
+%
+%   q_CB = qcomp(q_CA, qinv(q_BA));
+%
+% Inputs:
+%
+% q_CA  Rotation quaternion representing frame C wrt frame A (4-by-n)
+% q_BA  Rotation quaternion representing frame B wrt frame A (4-by-n)
+%
+% Outputs:
+%
+% q_CB  Rotation quaternion representing frame C wrt frame B (4-by-n)
+
 % Copyright 2016 An Uncommon Lab
 
 %#codegen

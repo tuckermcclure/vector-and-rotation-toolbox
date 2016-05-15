@@ -1,35 +1,24 @@
 function R = Rz(theta)
 
-% Rz
+% RZ  Direction cosine matrix of rotation about +x
 % 
-% Produces a direction cosine matrix (rotation) corresponding to a frame
-% rotation about [1 0 0]'.
+% Produces a direction cosine matrix (rotation matrix) corresponding to a
+% frame rotation about [0; 0; 1].
 %
-% Note that this is *frame* rotation and is the opposite of *vector* 
-% rotation.
+%   R = RZ(theta);
 %
-% For example, suppose we're observing a vector in some frame, A, called
-% vA. Now let's suppose that some frame, B, is rotated from A by theta
-% about [1 0 0]'. Then the vector expressed in the rotated frame, B, is
-% given by:
+% Naturally, this corresponds to aa2dcm([0; 0; 1], theta), but this is
+% faster and requires less RAM.
 %
-% vB = Rz(theta) * vA;
+% Inputs:
+% 
+% theta  Rotation angles (1-by-n)
 %
-% Let's look at the opposite. Suppose some vector is v = [0 1 0]', and we
-% want to rotate this vector (not the frame from which we view it) by pi/4.
-% Since this is the opposite of frame rotation, we can achieve the rotated
-% vector with either:
+% Outputs:
+% 
+% R      Direction cosine matrix (3-by-3-by-n)
 %
-% vr = Rz(-pi/4) * [0 1 0]'
-%
-% or
-%
-% vr = Rz(pi/4)' * [0 1 0]'
-%
-% This usage corresponds with the general notation used in _Quaternions and
-% Rotation Sequences_ by Jack B. Kuiper.
-%
-% See also: Ry, Rz, aa2dcm
+% See also: Rx, Ry, aa2dcm
 
 % Copyright 2016 An Uncommon Lab
 

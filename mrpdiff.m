@@ -1,9 +1,26 @@
 function p_CB = mrpdiff(p_CA, p_BA, f)
 
-% mrpdiff
+% MRPDIFF
+%
+% Returns the "difference" in the two rotations -- the rotation of the
+% first input wrt the second.
 % 
-%   theta = mrpdiff(p_CA, p_BA)
-%   theta = mrpdiff(p_CA, p_BA, f)
+%   p_CB = mrpdiff(p_CA, p_BA)    % for traditional MRPs
+%   p_CB = mrpdiff(p_CA, p_BA, f) % for scaled MRPs
+%
+% This is a simple convenience utility and corresponds to:
+%
+%   p_CB = mrpcomp(p_CA, -p_BA);
+% 
+% Inputs:
+%
+% p_CA  Modified Rodrigues parameters some rotation (3-by-n)
+% p_BA  Modified Rodrigues parameters different rotation (3-by-n)
+% f     Optional scaling parameter (default 1)
+%
+% Outputs:
+%
+% p_CB  Modified Rodrigues parameters of first rotation wrt second (3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

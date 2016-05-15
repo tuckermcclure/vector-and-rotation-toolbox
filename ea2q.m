@@ -1,6 +1,21 @@
 function q = ea2q(ea, seq)
 
-% ea2q
+% ea2q  Euler angles to rotation quaternion
+%
+% Convert Euler angles with the given sequence to the corresponding 
+% quaternion(s).
+% 
+%   q = ea2dcm(ea, seq)
+%   q = ea2dcm(ea) % Defaults to [3 2 1] sequence
+%
+% Inputs:
+%
+% ea   Euler angles (radians, 3-by-n)
+% seq  Sequence for Euler angles, specified as, e.g., [3 1 2] or 'zxy'
+% 
+% Outputs:
+%
+% q    Quaternion(s) (4-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

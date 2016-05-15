@@ -1,16 +1,18 @@
 function q = qpos(q)
 
-% qpos
+% QPOS  Positive form of the rotation quaternion
 % 
-% Ensure that the scalar part (4th element) of the quaternion is positive.
+% Ensure that the scalar part (4th element) of the rotation quaternion is 
+% positive, which corresponds to the "near" rotation instead of the "long
+% way around".
 % 
 % Inputs:
 %
-% q   Set of quaternions, 4-by-n
+% q   Set of quaternions (4-by-n)
 % 
 % Outputs:
 %
-% q   Set of quaternions with positive scalar part.
+% q   Set of quaternions with positive scalar part (4-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

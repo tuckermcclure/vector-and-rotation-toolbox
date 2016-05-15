@@ -1,6 +1,27 @@
 function qi = qinterp(t, q, ti)
 
-% qi = qinterp(t, q, ti);
+% QINTERP  Rotation quaternion interpolation, given independent variables
+%
+% Interpolates between rotation quaternions at various values of the
+% independent variable, t, (usually tim) according to new values, ti (other
+% times). Both t and ti should be in ascending order.
+% 
+%   qi = QINTERP(t, q, ti);
+%
+% This type of interpolation preserves the rotational meaning of the
+% quaternion. That is, interpolating 10% of the way from qa to qb
+% corresponding to rotating 10% of the angle through the rotation of qa wrt
+% qb. This is analogous to linear interpolation but in a rotational sense.
+%
+% Inputs:
+%
+% t   Independent variable, usually time (1-by-n)
+% q   Quaternions corresponding to t (4-by-n)
+% ti  Values for the independent variable at which to interpolate (1-by-m)
+%
+% Outputs:
+%
+% qi  Interpolated quaternions corresponding to ti (4-by-m)
 
 % Copyright 2016 An Uncommon Lab
 

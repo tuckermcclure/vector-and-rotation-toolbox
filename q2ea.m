@@ -1,5 +1,21 @@
 function ea = q2ea(q, seq)
 
+% Q2EA  Rotation quaternion to Euler angles with the given sequence
+%
+% Converts the rotation quaternion into Euler angles with the given 
+% sequence. By default, the sequence is [3 2 1].
+%
+%   ea = Q2EA(q)
+%   ea = Q2EA(q, seq)
+%
+% Inputs:
+%
+% q    Rotation quaternion(s) (4-by-n)
+% seq  Sequence for Euler angles, specified as, e.g., [3 1 3] or 'zxy'
+% 
+% Outputs:
+%
+% ea   Euler angles (radians, 3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

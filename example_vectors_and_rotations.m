@@ -1,3 +1,10 @@
+%% Examples for Vectors and Rotations Toolbox
+%
+% This file shows examples of using this toolbox to manipulate vectors and
+% rotations (in various parameterizations). The functions are consistent,
+% so once one knows how to use, e.g., a quaternion in one function, it is
+% the same everywhere.
+
 %%
 % Let's suppose frame B is rotated from frame A by pi/4 about the y axis.
 % We can express this rotation in several ways, but let's start with the

@@ -1,10 +1,24 @@
 function [theta, r] = dcm2aa(R)
 
-% [theta, r] = dcm2aa(R)
+% dcm2aa  direction cosine matrix to angle-axis representation
 %
-% Kuipers, Jack B., _Quaternions and Rotation Sequences: A Primer with
-% Applications to Orbits, Aerospace, and Virtual Reality_. Princeton:
-% Princeton University Press. 1999. Book. Page 66.
+% Convert a direction cosine matrix (or several) to the corresponding angle
+% of rotation and corresponding axes of rotation.
+% 
+%   [theta, r] = dcm2aa(R)
+%   theta      = dcm2aa(R)
+%
+% When the axes are not needed, this output can be skipped, saving some
+% computation time.
+%
+% Inputs:
+%
+% R  Direction cosine matrices (3-by-3-by-n)
+% 
+% Outputs:
+%
+% theta  Angle(s) of rotation (radians, 1-by-n)
+% r      Unit axes of right-handed rotation (3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

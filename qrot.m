@@ -1,10 +1,20 @@
 function v = qrot(q, v)
 
-% Rotate a vector in frame A, v_A, to frame B given the quaternion
-% representing B wrt A, q_BA.
+% QROT  Vector rotation by rotation quaternion
 %
-%   v_B = qrot(q_BA, v_A);
+% Calculate how a vector given in frame A would be seen in frame B, given
+% the rotation quaternion of frame B wrt A.
 %
+%   v_B = QROT(q_BA, v_A);
+%
+% Inputs:
+%
+% q_BA  Rotation quaternion of frame B wrt frame A (4-by-n)
+% v_A   Vectors as seen in frame A (3-by-n)
+%
+% Outputs:
+%
+% v_B   Same vectors as seen in frame B (3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

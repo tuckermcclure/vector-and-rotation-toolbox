@@ -1,6 +1,31 @@
 function p = aa2mrp(theta, r, f)
 
-% aa2mrp
+% AA2MRP  angle-axis to modified Rodrigues parameters
+%
+% Convert an angle and axis of rotation to a modified Rodrigues parameters.
+% This is vectorized to take multiple angles (1-by-n) and corresponding 
+% axes (3-by-n). An optional scaling parameter is allowed; by using a
+% scaling parameter of 4, the MRPs are approximately equal to the rotation 
+% vector (r * theta) for small rotations. The default scaling is 1, 
+% resulting in the traditional MRPs.
+%
+%   p = AA2MRP(theta, r);
+%   p = AA2MRP(theta, r, f);
+%
+% For a single angle and axis, this is equivalent to:
+%
+%   p = f * tan(theta/4) * r;
+%
+% See the readme for more on MRPs.
+% 
+% Inputs:
+%
+% r      Unit axis (or axes) of right-handed rotation (3-by-n)
+% theta  Angle(s) of rotation of frame B wrt A about r (1-by-n)
+%
+% Outputs:
+%
+% p      MRPs representing the rotation of frame B wrt frame A (3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 

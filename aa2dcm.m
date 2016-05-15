@@ -1,21 +1,31 @@
 function R = aa2dcm(theta, r)
 
-% aa2dcm
+% aa2dcm  angle-axis to direction cosine matrix
 %
-% Convert an axis and angle or rotation to a direction cosine matrix. This
-% is vectorized to take multiple axes (3-by-n) and corresponding angles
-% (1-by-n).
+% Convert an angle and axis of rotation to a direction cosine matrix. This
+% is vectorized to take multiple angles (1-by-n) and corresponding
+% axes (3-by-n).
 %
-%   R = eye(3)*cos(theta) + (1-cos(theta))*(r*r') - sin(theta)*crs(r);
+%   R = aa2dcm(theta, r);
+%
+% For a single angle and axis, this is equivalent to:
+%
+%   R = cos(theta)*eye(3) + (1-cos(theta))*(r*r') - sin(theta)*crs3(r);
 % 
 % Inputs:
 %
-% r      Unit axis of rotation (3-by-n)
-% theta  Angle of rotation of frame B wrt A (1-by-n)
+% r      Unit axis (or axes) of right-handed rotation (3-by-n)
+% theta  Angle(s) of rotation of frame B wrt A about r (radians, 1-by-n)
 %
 % Outputs:
 %
-% R      Direction cosine matrix representing B wrt A (v_B = R * v_A)
+% R      Direction cosine matrix representing B wrt A (3-by-3-by-n)
+%
+% Example:
+%
+% v_A = [1; 0; 0]; % A vector as seen in the A frame
+% R_BA = aa2dcm([0; 1; 0], pi/4); % Rotation of B wrt A (45 deg. about y)
+% v_B = R_BA * v_A % The same vector as seen in the B frame
 
 % Copyright 2016 An Uncommon Lab
 

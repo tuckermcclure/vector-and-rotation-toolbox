@@ -1,12 +1,18 @@
 function dcm = q2dcm(q)
 
-% q2dcm
+% Q2DCM  Rotation quaternion to direction cosine matrix
 %
-% Convert a unit quaternion representing a rotation into a corresponding
-% direction cosine matrix. This is vectorized to accept 1-by-n quaternions,
-% returning 4-by-4-by-n DCMs.
+% Converts the rotation quaternion into a direction cosine matrix.
 %
-% v_B = T_BA * v_A = q2dcm(q_BA) * v_A
+%   R = Q2AA(q)
+%
+% Inputs:
+%
+% q  Rotation quaternion(s) (4-by-n)
+% 
+% Outputs:
+%
+% R  Direction cosine matrix or matrices (3-by-3-by-n)
 
 % Copyright 2016 An Uncommon Lab
 
