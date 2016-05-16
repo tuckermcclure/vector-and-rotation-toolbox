@@ -69,11 +69,13 @@ function [theta, r] = dcm2aa(R)
             r(:,theta_is_pi)   = normalize(r(:,theta_is_pi));
             
             normal      = ~theta_is_zero & ~theta_is_pi;
-            d           = 1./(2 * sin(theta(normal)));
-            s           = sum(normal);
-            r(1,normal) = d .* reshape(R(2,3,normal) - R(3,2,normal), [1 s]);
-            r(2,normal) = d .* reshape(R(3,1,normal) - R(1,3,normal), [1 s]);
-            r(3,normal) = d .* reshape(R(1,2,normal) - R(2,1,normal), [1 s]);
+            if any(normal)
+                d           = 1./(2 * sin(theta(normal)));
+                s           = sum(normal);
+                r(1,normal) = d .* reshape(R(2,3,normal) - R(3,2,normal), [1 s]);
+                r(2,normal) = d .* reshape(R(3,1,normal) - R(1,3,normal), [1 s]);
+                r(3,normal) = d .* reshape(R(1,2,normal) - R(2,1,normal), [1 s]);
+            end
             
         % Otherwise, codegen...
         else

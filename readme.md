@@ -117,7 +117,8 @@ These conventions are consistent with the literature on using quaternions for ro
 2. Quaternion "composition" is backwards from quaternion multiplication in that toolbox.
 3. qinv should be used instead of quatconj.
 4. Functions in this toolbox are created to ensure that quaternions retain a unit 2-norm.
-5. The functions in this toolbox are both faster in MATLAB and better for C code generation.
+5. This toolbox expects multiple quaternions to be a 4-by-n matrix, whereas it is n-by-4 in that toolbox.
+6. The functions in this toolbox are both faster in MATLAB and better for C code generation.
 
 
 Euler Angles

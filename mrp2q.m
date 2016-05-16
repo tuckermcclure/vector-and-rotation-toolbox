@@ -23,7 +23,7 @@ function q = mrp2q(p, f)
 
     % Set defaults so that for small angles, the scaled MRPs approach the
     % rotation vector.
-    if nargin < 3 || isempty(f), f = 1; end;
+    if nargin < 2 || isempty(f), f = 1; end;
 
     % Check dimensions.
     assert(nargin >= 1, ...
@@ -37,7 +37,7 @@ function q = mrp2q(p, f)
     q       = zeros(4, n, class(p));
     f2      = f * f;
     pm2     = p(1,:).*p(1,:) + p(2,:).*p(2,:) + p(3,:).*p(3,:);
-    c0      = 1 ./ (f2 + pm2);
+    c0      = 1  ./ (f2 + pm2);
     q(4,:)  = c0 .* (f2 - pm2);
     c0      = (2*f) * c0;
     q(1,:)  = c0 .* p(1,:);
