@@ -9,11 +9,8 @@ It supports MATLAB R2011a and newer.
 
 TODO
 ----
-Update the headers.
 Examples.
 Put on aul? Convert to doc_?
-Look up quaternion interpolation.
-Intelligent search for qinterp.
 
 
 Quick Example

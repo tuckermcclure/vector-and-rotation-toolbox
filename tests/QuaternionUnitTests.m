@@ -107,14 +107,25 @@ function test_qinterp(test)
     end
     
     % Form the truth.
-    ti   = 0:0.5:10;
+    ti   = [-1 0 0.5 1 7 7.5 8 10 10.1];
     qi_0 = zeros(4, length(ti));
     for k = 1:length(ti)
-        qi_0(:,k) = aa2q(w*ti(k), r);
+        qi_0(:,k) = aa2q(w * max(min(ti(k), t(end)), 0), r);
     end
     
-    qi = qinterp(t, q, ti);
+    % Results.
+    qi = qinterp(t, q, ti, 'Ordered', true);    
+    test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
     
+    % Now with out-of-order points.
+    ti   = [-1 7 7.5 8 0 0.5 1 10 10.1];
+    qi_0 = zeros(4, length(ti));
+    for k = 1:length(ti)
+        qi_0(:,k) = aa2q(w * max(min(ti(k), t(end)), 0), r);
+    end
+    
+    % Results.
+    qi = qinterp(t, q, ti);    
     test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
     
 end % qinterp

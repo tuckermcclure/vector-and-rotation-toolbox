@@ -1,4 +1,4 @@
-function qi = qinterp(t, q, ti)
+function qi = qinterp(t, q, ti, varargin)
 
 % QINTERP  Rotation quaternion interpolation, given independent variables
 %
@@ -22,6 +22,15 @@ function qi = qinterp(t, q, ti)
 % Outputs:
 %
 % qi  Interpolated quaternions corresponding to ti (4-by-m)
+%
+% Option-Value Pairs:
+%
+% Ordered  Set to true when the input ti is already in ascending order.
+%          Default is false.
+% Binary   Set to true to use a binary search for each request value of ti
+%          (faster for interpolating a few values inside a large dataset);
+%          set to false to use a straightforward search (may be faster
+%          otherwise). Default is true.
 
 % Copyright 2016 An Uncommon Lab
 
@@ -39,21 +48,105 @@ function qi = qinterp(t, q, ti)
            ['%s: The time inputs and quaternions must have the ' ...
             'same number of columns.'], mfilename);
 
-    n  = size(ti, 2);
-    qi = zeros(4, n, class(q));
-    for k = 1:n
-
-        % TODO: Use an intelligent search. (..., 'Ordered', true, ...).
+    % Get the dimensions.
+    n  = size(t, 2);
+    m  = size(ti, 2);
+    
+    % Process some options.
+    ordered = m > 1;
+    binary  = true;
+    for k = 2:2:length(varargin)
+        switch lower(varargin{k-1})
+            case 'ordered'
+                ordered = varargin{k};
+            case 'binrary'
+                binary = varargin{k};
+            otherwise
+                error('%s: Unknown option: %s.', mfilename, varargin{k-1});
+        end
+    end
+        
+    % If the requested times aren't sorted, sort them.
+    if ~ordered
+        [ti, ind] = sort(ti);
+    end
+    
+    qi        = zeros(4, m, class(q));
+    left      = 1;
+    last_left = 1;
+    interval  = n - 1;
+    for k = 1:m
+        
+        % The requested time is before the start; limit.
         if ti(k) <= t(1)
+            
             qi(:,k) = q(:,1);
+            
+        % The requested time is after the end; limit.
         elseif ti(k) >= t(end)
+            
             qi(:,k) = q(:,end);
+            
+        % Otherwise, find the first value of t that's greater than ti(k).
         else
-            index = find(t < ti(k), 1, 'last');
-            f = (ti(k) - t(index)) / (t(index+1) - t(index));
-            qi(:,k) = qinterpf(q(:,index), q(:,index+1), f);
+
+            % Find the first element of t that's >= ti(k), using a binary
+            % search if we can.
+            if binary
+            
+                % Start the right hand side at the left plus the same
+                % amount the search moved last time. Double it until the
+                % right is > the requested time.
+                right = left + interval;
+                while right < n && t(right) < ti(k)
+                    right = 2 * (right - left) + left;
+                end
+                if right > n
+                    right = n;
+                end
+
+                % Search within the left and right bounds for the crossover
+                % point.
+                while left < right - 1
+                    c = left + floor((right - left)/2);
+                    if t(c) < ti(k)
+                        left = c;
+                    else
+                        right = c;
+                    end
+                end
+
+                % How far did we step this time?
+                interval  = left - last_left + 1;
+                last_left = left;
+            
+            % Otherwise, use a straightforward search.
+            else
+                
+                while c <= n && t(c) < ti(k)
+                    c = c + 1;
+                end
+                
+            end
+            
+            % Calculate fraction from left to right and finally
+            % interpolate.
+            f = (ti(k) - t(left)) / (t(right) - t(left));
+            if f >= 1
+                qi(:,k) = q(:,right);
+            elseif f <= 0
+                qi(:,k) = q(:,left);
+            else
+                qi(:,k) = qinterpf(q(:,left), q(:,right), f);
+            end
+            
         end
 
     end
        
+    % If they weren't sorted, give them back in the right order.
+    if ~ordered
+        qi(:,ind) = qi;
+    end
+    
 end % qinterp

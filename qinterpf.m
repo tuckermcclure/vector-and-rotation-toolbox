@@ -44,8 +44,7 @@ function qi = qinterpf(qa, qb, f)
     % MATLAB
     if isempty(coder.target)
         
-        qi = qinv(qa);
-        qi = qcomp(qb, qi);
+        qi = qdiff(qb, qa);
         [theta, r] = q2aa(qi);
         qi = qcomp(aa2q(f .* theta, r), qa);
         
@@ -55,8 +54,7 @@ function qi = qinterpf(qa, qb, f)
         n  = size(qa, 2);
         qi = zeros(4, n, class(qa));
         for k = 1:size(qa, 2)
-            qt = qinv(qa(:,k));
-            qt = qcomp(qb(:,k), qt);
+            qt = qdiff(qb(:,k), qa(:,k));
             [theta, r] = q2aa(qt);
             qi(:,k) = qcomp(aa2q(f .* theta, r), qa(:,k));
         end
