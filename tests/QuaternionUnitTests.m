@@ -125,7 +125,7 @@ function test_qinterp(test)
     end
     
     % Results.
-    qi = qinterp(t, q, ti);    
+    qi = qinterp(t, q, ti);    % TODO: This doesn't work.
     test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
     
 end % qinterp
@@ -136,8 +136,8 @@ end % qinterp
 
 function test_qdot(test)
 
-    r = [1; 0; 0];%randunit(3);
-    w = 1;%randn();
+    r = randunit(3);
+    w = randn();
     t = 0:0.1:10;
     n = length(t);
     
@@ -157,7 +157,7 @@ function test_qdot(test)
         q(:,k) = q(:,k-1) + qd * dt;
     end
 
-    test.verifyEqual(q, q_0, 'AbsTol', 1e-6);
+    test.verifyEqual(q, q_0, 'AbsTol', 1e-5);
     
 end % qdot
 
