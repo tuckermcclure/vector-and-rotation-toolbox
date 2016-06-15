@@ -124,7 +124,7 @@ These conventions are consistent with the literature on using quaternions for ro
 Euler Angles
 ------------
 
-This toolbox converts to and from Euler angles. There are 12 possible Euler angle sequences. One particularly common sequence is the 3-2-1 sequence or "aerospace sequence". This says to first rotate about the 3 axis, then about the new 2 axis, then about the new 1 axis, by the given angles. This is also referred to as the yaw-pitch-roll sequence or heading-elevation-bank, and it is used as a default. However, any sequence can be provided in functions that deal with Euler angles (e.g., ea2q(ea, [3 1 3])). Euler angles are primarily used for human input, since they are fairly intuitive. However, they have many terrible properties (ambiguity, gimbal-lock, poor numerical qualities).
+This toolbox converts to and from Euler angles. There are 12 possible Euler angle sequences. One particularly common sequence is the 3-2-1 sequence or "aerospace sequence". This says to first rotate about the 3 axis, then about the new 2 axis, then about the new 1 axis, by the given angles in the order that the angles are given. This is also referred to as the yaw-pitch-roll sequence or heading-elevation-bank, and it is used as a default. However, any sequence can be provided in functions that deal with Euler angles (e.g., ea2q(ea, [3 1 3])). Euler angles are primarily used for human input, since they are fairly intuitive. However, they have many terrible properties (ambiguity, gimbal-lock, poor numerical qualities).
 
 Euler angle functions:
 
