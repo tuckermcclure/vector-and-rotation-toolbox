@@ -125,7 +125,11 @@ function test_qinterp(test)
     end
     
     % Results.
-    qi = qinterp(t, q, ti);    % TODO: This doesn't work.
+    qi = qinterp(t, q, ti, 'ordered', false);
+    test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
+    
+    % Results (assumes unordered by default).
+    qi = qinterp(t, q, ti);
     test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
     
 end % qinterp

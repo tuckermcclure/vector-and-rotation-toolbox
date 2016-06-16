@@ -53,8 +53,8 @@ function qi = qinterp(t, q, ti, varargin)
     m  = size(ti, 2);
     
     % Process some options.
-    ordered = m > 1;
-    binary  = true;
+    ordered = m == 1; % Only assume ordered if there's 1 ti value.
+    binary  = true;   % Use binary search by default.
     for k = 2:2:length(varargin)
         switch lower(varargin{k-1})
             case 'ordered'
@@ -65,13 +65,13 @@ function qi = qinterp(t, q, ti, varargin)
                 error('%s: Unknown option: %s.', mfilename, varargin{k-1});
         end
     end
-        
+    
     % If the requested times aren't sorted, sort them.
     if ~ordered
         [ti, ind] = sort(ti);
     end
     
-    qi        = zeros(4, m, class(q));
+    qi        = zeros(4, m, class(q)); %#ok<ZEROLIKE>
     left      = 1;
     last_left = 1;
     interval  = n - 1;
