@@ -1,3 +1,6 @@
+% Add the 'tests' directory to the path and then run this script from the
+% top-level directory (<here>/..).
+
 clc;
 
 rebuild = true;

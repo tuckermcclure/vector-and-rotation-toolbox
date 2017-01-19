@@ -40,17 +40,18 @@ function p = mrpcomp(pb, pa, f)
     % If in MATLAB, vectorize.
     if isempty(coder.target)
         
-        f2 = f * f;
-        p1m2 = pa(1,:).*pa(1,:) + pa(2,:).*pa(2,:) + pa(3,:).*pa(3,:);
-        p2m2 = pb(1,:).*pb(1,:) + pb(2,:).*pb(2,:) + pb(3,:).*pb(3,:);
-        d    = pa(1,:).*pb(1,:) + pa(2,:).*pb(2,:) + pa(3,:).*pb(3,:);
-        c0   = (f2 - p1m2);
-        c1   = (f2 - p2m2);
-        c2   = 1./(f2 + (1/f2) .* p1m2 .* p2m2 - 2 * d);
-        p    = (-2*f) * cross3(pb, pa);
-        p(1,:) = (p(1,:) + c0 .* pb(1,:) + c1 .* pa(1,:)) .* c2;
-        p(2,:) = (p(2,:) + c0 .* pb(2,:) + c1 .* pa(2,:)) .* c2;
-        p(3,:) = (p(3,:) + c0 .* pb(3,:) + c1 .* pa(3,:)) .* c2;
+        f2        = f * f;
+        p1m2      = pa(1,:).*pa(1,:) + pa(2,:).*pa(2,:) + pa(3,:).*pa(3,:);
+        p2m2      = pb(1,:).*pb(1,:) + pb(2,:).*pb(2,:) + pb(3,:).*pb(3,:);
+        d         = pa(1,:).*pb(1,:) + pa(2,:).*pb(2,:) + pa(3,:).*pb(3,:);
+        c0        = (f2 - p1m2);
+        c1        = (f2 - p2m2);
+        c2        = (f2 + (1/f2) .* p1m2 .* p2m2 - 2 * d);
+        c2(c2~=0) = 1./c2(c2~=0);
+        p         = (-2*f) * cross3(pb, pa);
+        p(1,:)    = (p(1,:) + c0 .* pb(1,:) + c1 .* pa(1,:)) .* c2;
+        p(2,:)    = (p(2,:) + c0 .* pb(2,:) + c1 .* pa(2,:)) .* c2;
+        p(3,:)    = (p(3,:) + c0 .* pb(3,:) + c1 .* pa(3,:)) .* c2;
         
     % Otherwise, make good C.
     else
@@ -65,7 +66,12 @@ function p = mrpcomp(pb, pa, f)
             p(:,k) =   (f2 - p1m2) * pb(:,k) ...
                      + (f2 - p2m2) * pa(:,k) ...
                      - 2*f * cross3(pb(:,k), pa(:,k));
-            p(:,k) = (1/(f2 + p1m2 * p2m2 / f2 - 2 * d)) * p(:,k);
+            div = f2 + p1m2 * p2m2 / f2 - 2 * d;
+            if div ~= 0
+                p(:,k) = (1/div) * p(:,k);
+            else
+                p(:,k) = 0;
+            end
         end
         
     end

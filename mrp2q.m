@@ -21,8 +21,7 @@ function q = mrp2q(p, f)
 
 %#codegen
 
-    % Set defaults so that for small angles, the scaled MRPs approach the
-    % rotation vector.
+    % Set defaults for the standard MRPs.
     if nargin < 2 || isempty(f), f = 1; end;
 
     % Check dimensions.

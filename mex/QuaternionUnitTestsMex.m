@@ -107,14 +107,29 @@ function test_qinterp(test)
     end
     
     % Form the truth.
-    ti   = 0:0.5:10;
+    ti   = [-1 0 0.5 1 7 7.5 8 10 10.1];
     qi_0 = zeros(4, length(ti));
     for k = 1:length(ti)
-        qi_0(:,k) = aa2q_mex(w*ti(k), r);
+        qi_0(:,k) = aa2q_mex(w * max(min(ti(k), t(end)), 0), r);
     end
     
-    qi = qinterp(t, q, ti);
+    % Results.
+    qi = qinterp(t, q, ti, 'Ordered', true);    
+    test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
     
+    % Now with out-of-order points.
+    ti   = [-1 7 7.5 8 0 0.5 1 10 10.1];
+    qi_0 = zeros(4, length(ti));
+    for k = 1:length(ti)
+        qi_0(:,k) = aa2q_mex(w * max(min(ti(k), t(end)), 0), r);
+    end
+    
+    % Results.
+    qi = qinterp(t, q, ti, 'ordered', false);
+    test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
+    
+    % Results (assumes unordered by default).
+    qi = qinterp(t, q, ti);
     test.verifyEqual(qi, qi_0, 'AbsTol', 10*eps);
     
 end % qinterp
@@ -125,8 +140,8 @@ end % qinterp
 
 function test_qdot(test)
 
-    r = [1; 0; 0];%randunit(3);
-    w = 1;%randn();
+    r = randunit(3);
+    w = randn();
     t = 0:0.1:10;
     n = length(t);
     
@@ -146,7 +161,7 @@ function test_qdot(test)
         q(:,k) = q(:,k-1) + qd * dt;
     end
 
-    test.verifyEqual(q, q_0, 'AbsTol', 1e-6);
+    test.verifyEqual(q, q_0, 'AbsTol', 1e-5);
     
 end % qdot
 

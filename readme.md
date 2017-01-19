@@ -7,11 +7,6 @@ All rotation operations correspond to frame rotations. That is, they rotate the 
 
 It supports MATLAB R2011a and newer.
 
-TODO
-----
-Examples.
-Put on aul? Convert to doc_?
-
 
 Quick Example
 -------------
